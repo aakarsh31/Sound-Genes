@@ -1,5 +1,5 @@
 # Import the AudioFeatures class
-from audio_features import AudioFeatures
+from fitness_functions.audio_features import AudioFeatures
 
 # Define the audio file path
 audio_file = 'veera.mp3'
