@@ -3,11 +3,8 @@ import random
 import wave
 import time
 
-def decode(chromosome, filename):
-    # Configuration parameters
-    frames_per_sec = 44100
-    frame_duration = 0.2  # seconds
-    num_bins = 50
+def decode(chromosome, output_dir, frames_per_sec=44100, frame_duration=0.2): # Configuration parameters
+    
     sample_width = 2  # in bytes (16-bit)
     
     num_frames = len(chromosome)
@@ -38,7 +35,7 @@ def decode(chromosome, filename):
                 waveform[segment_start:segment_end] += bin_samples
 
     # Write the waveform to a WAV file
-    write_wave(filename, waveform)
+    write_wave(output_dir, waveform)
     print("Decoding completed!")
 
 def generate_bin_samples(amplitude, phase, frequency, duration, frames_per_sec):
@@ -51,17 +48,20 @@ def generate_bin_samples(amplitude, phase, frequency, duration, frames_per_sec):
     # Generate waveform samples
     waveform = amplitude * np.sin(2 * np.pi * frequency * t + np.deg2rad(phase))
     
-    return (waveform * 32767).astype(np.int16)
+    '''This operation scales the waveform samples up or down to fit within the range of 16-bit signed integers
+    , which is the format typically used in audio files (WAV format).'''
+
+    return (waveform * 32767).astype(np.int16) 
         
-def write_wave(filename, waveform):
+def write_wave(output_dir, waveform):
     # Write waveform samples to a WAV file
-    with wave.open(filename, 'w') as wav_file:
+    with wave.open(output_dir, 'w') as wav_file:
         wav_file.setnchannels(1)  # Mono audio
         wav_file.setsampwidth(2)  # 16-bit
         wav_file.setframerate(44100)
         wav_file.writeframes(waveform.tobytes())
 
-def generate_full_chromosome():
+def generate_full_chromosome_old():
     # Generate a full chromosome with multiple bins and waves per bin
     num_bins = 50
     waves_per_bin = 20
@@ -87,18 +87,15 @@ def generate_full_chromosome():
         chromosome.append(frame)
     return chromosome
 
-def generate_chromosome():
-    # Generate a chromosome with singl waves per bin
-    num_bins = 50
-    waves_per_bin = 1
-    num_frames = 300
+def generate_chromosome(frames = 300, bins=50, amplitude_range=1):
+    # Generate a chromosome with single waves per bin
     chromosome = []
 
-    for _ in range(num_frames):
+    for _ in range(frames):
         frame = []
-        for _ in range(num_bins):
+        for _ in range(bins):
             bin = []
-            amplitude = random.uniform(-1.0, 1.0)
+            amplitude = random.uniform(-amplitude_range,amplitude_range)
             phase = random.uniform(0.0, 360.0)
             bin.append([amplitude, phase])
             frame.append(bin)
@@ -107,10 +104,9 @@ def generate_chromosome():
 
     return chromosome
 
-def enlarge_chromosome(chromosome):
+def enlarge_chromosome(chromosome, waves_per_bin=20, min_frequency=20.0, max_frequency=20020.0):
     # Enlarge the chromosome by adding more waves to each bin
-    min_frequency = 20.0    
-    max_frequency = 20020.0
+
     frequency_Range = max_frequency - min_frequency
     current_frequency = min_frequency
     frequency_difference = frequency_Range / 1000
@@ -118,8 +114,21 @@ def enlarge_chromosome(chromosome):
     for frame in chromosome:
         for bin in frame:
             bin[0].append(current_frequency)
-            for _ in range(19):
+            for _ in range(waves_per_bin-1):
                 bin.append([bin[0][0], bin[0][1], current_frequency])
                 current_frequency += frequency_difference
 
     return chromosome
+
+def generate_full_chromosome(frames = 300, bins=50, amplitude_range=1, waves_per_bin=20, min_frequency=20.0, max_frequency=20020.0):
+    return enlarge_chromosome(generate_chromosome(frames=frames, bins=bins, amplitude_range=amplitude_range), waves_per_bin=waves_per_bin, min_frequency=min_frequency, max_frequency=max_frequency)
+
+
+# example usage (driver code)
+
+if __name__ == "__main__":
+    chromosome = generate_full_chromosome()
+    decode(chromosome, "sample1.wav")
+
+
+
