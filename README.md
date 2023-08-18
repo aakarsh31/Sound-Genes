@@ -9,12 +9,13 @@ More specifically, this repository contains programs to decode chromosomes to Wa
 
 
 	cd fitness_functions
-	```
+
 
 2. Run the Python driver script with the desired audio file:
 
-```bash
+   bash
     python driver.py aaramb.wav
-	```
+	
 
 Replace aaramb.wav with the name of your audio file that you want to process. Make sure you have the necessary dependencies installed and configured before running the script.
+```
