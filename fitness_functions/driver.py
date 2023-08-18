@@ -1,36 +1,40 @@
-# Import the AudioFeatures class
-from fitness_functions.audio_features import AudioFeatures
+import json
+from audio_features import AudioFeatures
+import sys
 
 # Define the audio file path
-audio_file = 'veera.mp3'
+audio_file = 'aaramb.wav'
+directory = ""
 
+num_arguments = len(sys.argv)
+
+if num_arguments > 1:
+    audio_file = sys.argv[1]
 # Create an instance of the AudioFeatures class
-audio_features = AudioFeatures(audio_file)
-
+audio_features = AudioFeatures(directory = directory, filename = audio_file)
 
 if __name__ == "__main__":
-	# Call all the functions and store the results
-	result_A1 = audio_features.A1()
-	result_A2 = audio_features.A2()
-	result_A3 = audio_features.A3()
-	result_A4 = audio_features.A4()
-	result_A5 = audio_features.A5()
-	result_B1 = audio_features.B1()
-	result_B2 = audio_features.B2()
-	result_B3 = audio_features.B3()
-	result_B4 = audio_features.B4()
-	result_B5 = audio_features.B5()
-	# result_feature_Entropy = audio_features.feature_Entropy()
+    # Call all the functions and store the results
+    results = {
+        "A1": float(audio_features.A1()),
+        "A2": float(audio_features.A2()),
+        "A3": float(audio_features.A3()),
+        "A4": float(audio_features.A4()),
+        "A5": float(audio_features.A5()),
+        "B1": float(audio_features.B1()),
+        "B2": float(audio_features.B2()),
+        "B3": float(audio_features.B3()),
+        "B4": float(audio_features.B4()),
+        "B5": float(audio_features.B5())
+    }
 
-	# Print the results
-	print("A1:", result_A1)
-	print("A2:", result_A2)
-	print("A3:", result_A3)
-	print("A4:", result_A4)
-	print("A5:", result_A5)
-	print("B1:", result_B1)
-	print("B2:", result_B2)
-	print("B3:", result_B3)
-	print("B4:", result_B4)
-	print("B5:", result_B5)
-	# print("Feature Entropy:", result_feature_Entropy)
+    # Print the results
+    for feature, value in results.items():
+        print(f"{feature}:", value)
+
+    # Save the results to a JSON file
+    output_filename = f"{audio_file.replace('.wav', '')}_10_features.json"
+    with open(output_filename, 'w') as json_file:
+        json.dump(results, json_file, indent=4)
+    
+    print(f"Results saved to {output_filename}")
