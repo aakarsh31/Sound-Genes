@@ -4,10 +4,10 @@ Software for the research project named "Generating Rasa based Indian classical 
 More specifically, this repository contains programs to decode chromosomes to Wav files, the necessary fitness function to make this project possible and the customized genetic algorithm for the same.
 
 ## Fitness Functions Usage
-
+```bash
 1. Navigate to the `fitness_functions` directory:
 
-```bash
+
 	cd fitness_functions
 	```
 
