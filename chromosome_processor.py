@@ -1,7 +1,7 @@
 import numpy as np
 import random
 import wave
-import time
+import sys
 
 def decode(chromosome, output_dir, frames_per_sec=44100, frame_duration=0.2): # Configuration parameters
     
@@ -127,8 +127,21 @@ def generate_full_chromosome(frames = 300, bins=50, amplitude_range=1, waves_per
 # example usage (driver code)
 
 if __name__ == "__main__":
+    chromosome = []
+    audio_file_name = ""
+
+    num_arguments = len(sys.argv)
+
+    if num_arguments == 2:
+        audio_file_name = sys.argv[1]
+    elif num_arguments == 3:
+        chromosome = sys.argv[1]
+        audio_file_name = sys.argv[2]
+    elif num_arguments == 1:
+        audio_file_name = "sample_output.wav"
+    
     chromosome = generate_full_chromosome()
-    decode(chromosome, "sample1.wav")
+    decode(chromosome, audio_file_name + ".wav")
 
 
 

@@ -1,6 +1,4 @@
 from Feature_Extractor import extract_features
-import json
-import os
 
 class AudioFeatures:
     def __init__(self, filename, directory):
