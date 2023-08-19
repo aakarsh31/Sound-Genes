@@ -33,7 +33,7 @@ Replace aaramb.wav with the name of your audio file that you want to process. Ma
 
 ## Chromosome Processor Usage
 
-1. Run the chromosome_processor script with an argument of output audio filename:
+1. Run the chromosome_processor script with an argument of output audio filename to generate a random chromosome and convert it to a wav file:
 	```bat
 	python chromosome_processor.py output.wav
 	```
