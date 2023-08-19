@@ -17,13 +17,14 @@ More specifically, this repository contains programs to decode chromosomes to Wa
 
 ## Fitness Functions Usage
 
-1. Navigate to the `fitness_functions` directory:
+1. Place your sample audio file in the test_data folder
+
+2. Navigate to the `fitness_functions` directory:
 	```bat
 	cd fitness_functions
 	```
 
-
-2. Run the Python driver script with the desired audio file:
+3. Run the Python driver script with the desired audio file:
 	```bat
     python driver.py aaramb.wav
 	```
