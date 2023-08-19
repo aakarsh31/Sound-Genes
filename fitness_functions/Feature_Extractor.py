@@ -11,9 +11,6 @@ def extract_features(settings="final_settings.xml", directory="", filename="aara
     # Create the full audio file path
     audio_filepath = os.path.join(directory, filename)
     
-    # Path to jAudio executable
-    jAudio_filepath = "E:/RESEARCH/generate-music/Sound_Genes/fitness_functions/jAudio"
-    
     # Construct the Java command to run jAudio feature extraction
     java_command = [
         'java',
@@ -35,8 +32,8 @@ def extract_features(settings="final_settings.xml", directory="", filename="aara
         print("Java command executed successfully")
 
         # Load XML file
-        xml_file = f'{jAudio_filepath}/{output_filename}FV.xml'
         current_path = os.getcwd()
+        xml_file = os.path.join(current_path, 'jAudio', f'{output_filename}FV.xml')
         print("Current path:", current_path)
         tree = ET.parse(xml_file)
         root = tree.getroot()
