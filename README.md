@@ -5,9 +5,9 @@ More specifically, this repository contains programs to decode chromosomes to Wa
 
 ## Dependencies Installation
 
-1. Install Java: Make sure you have Java installed on your system. You can download and install the latest version of Java from the [official website] (https://www.java.com/en/download/).
+1. Install Java: Make sure you have Java installed on your system. You can download and install the latest version of Java from the [official website](https://www.java.com/en/download/).
 
-2. Make sure you have [Python 3] (https://www.python.org/downloads/) and [pip] (https://pip.pypa.io/en/stable/installation/) installed
+2. Make sure you have [Python 3](https://www.python.org/downloads/) and [pip](https://pip.pypa.io/en/stable/installation/) installed
 
 3. Then run the following command to install all the python based dependencies
 
