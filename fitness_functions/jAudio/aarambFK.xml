@@ -1,0 +1,184 @@
+<?xml version="1.0"?>
+<!DOCTYPE feature_key_file [
+   <!ELEMENT feature_key_file (comments, feature+)>
+   <!ELEMENT comments (#PCDATA)>
+   <!ELEMENT feature (name, description?, is_sequential, parallel_dimensions)>
+   <!ELEMENT name (#PCDATA)>
+   <!ELEMENT description (#PCDATA)>
+   <!ELEMENT is_sequential (#PCDATA)>
+   <!ELEMENT parallel_dimensions (#PCDATA)>
+]>
+
+<feature_key_file>
+
+   <comments></comments>
+
+	<feature>
+		<name>Spectral Centroid Overall Standard Deviation</name>
+		<description>The centre of mass of the power spectrum.
+This is the overall standard deviation over all windows.</description>
+		<is_sequential>true</is_sequential>
+		<parallel_dimensions>1</parallel_dimensions>
+	</feature>
+	<feature>
+		<name>Derivative of Spectral Rolloff Point Overall Standard Deviation</name>
+		<description>Derivative of Spectral Rolloff Point.The fraction of bins in the power spectrum at which 85% of the power is at lower frequencies. This is a measure of the right-skewedness of the power spectrum.
+This is the overall standard deviation over all windows.</description>
+		<is_sequential>true</is_sequential>
+		<parallel_dimensions>1</parallel_dimensions>
+	</feature>
+	<feature>
+		<name>Derivative of Zero Crossings Overall Standard Deviation</name>
+		<description>Derivative of Zero Crossings.The number of times the waveform changed sign. An indication of frequency as well as noisiness.
+This is the overall standard deviation over all windows.</description>
+		<is_sequential>true</is_sequential>
+		<parallel_dimensions>1</parallel_dimensions>
+	</feature>
+	<feature>
+		<name>Standard Deviation of Zero Crossings Overall Standard Deviation</name>
+		<description>Standard Deviation of Zero Crossings.The number of times the waveform changed sign. An indication of frequency as well as noisiness.
+This is the overall standard deviation over all windows.</description>
+		<is_sequential>true</is_sequential>
+		<parallel_dimensions>1</parallel_dimensions>
+	</feature>
+	<feature>
+		<name>Derivative of Strongest Frequency Via Zero Crossings Overall Standard Deviation</name>
+		<description>Derivative of Strongest Frequency Via Zero Crossings.The strongest frequency component of a signal, in Hz, found via the number of zero-crossings.
+This is the overall standard deviation over all windows.</description>
+		<is_sequential>true</is_sequential>
+		<parallel_dimensions>1</parallel_dimensions>
+	</feature>
+	<feature>
+		<name>Standard Deviation of Strongest Frequency Via Zero Crossings Overall Standard Deviation</name>
+		<description>Standard Deviation of Strongest Frequency Via Zero Crossings.The strongest frequency component of a signal, in Hz, found via the number of zero-crossings.
+This is the overall standard deviation over all windows.</description>
+		<is_sequential>true</is_sequential>
+		<parallel_dimensions>1</parallel_dimensions>
+	</feature>
+	<feature>
+		<name>Derivative of Strongest Frequency Via Spectral Centroid Overall Standard Deviation</name>
+		<description>Derivative of Strongest Frequency Via Spectral Centroid.The strongest frequency component of a signal, in Hz, found via the spectral centroid.
+This is the overall standard deviation over all windows.</description>
+		<is_sequential>true</is_sequential>
+		<parallel_dimensions>1</parallel_dimensions>
+	</feature>
+	<feature>
+		<name>Derivative of Running Mean of Strongest Frequency Via Spectral Centroid Overall Standard Deviation</name>
+		<description>Derivative of Running Mean of Strongest Frequency Via Spectral Centroid.Running Mean of Strongest Frequency Via Spectral Centroid. The strongest frequency component of a signal, in Hz, found via the spectral centroid.
+This is the overall standard deviation over all windows.</description>
+		<is_sequential>true</is_sequential>
+		<parallel_dimensions>1</parallel_dimensions>
+	</feature>
+	<feature>
+		<name>Strongest Frequency Via FFT Maximum Overall Standard Deviation</name>
+		<description>The strongest frequency component of a signal, in Hz, found via finding the FFT bin with the highest power.
+This is the overall standard deviation over all windows.</description>
+		<is_sequential>true</is_sequential>
+		<parallel_dimensions>1</parallel_dimensions>
+	</feature>
+	<feature>
+		<name>Derivative of Strongest Frequency Via FFT Maximum Overall Standard Deviation</name>
+		<description>Derivative of Strongest Frequency Via FFT Maximum.The strongest frequency component of a signal, in Hz, found via finding the FFT bin with the highest power.
+This is the overall standard deviation over all windows.</description>
+		<is_sequential>true</is_sequential>
+		<parallel_dimensions>1</parallel_dimensions>
+	</feature>
+	<feature>
+		<name>LPC Overall Standard Deviation</name>
+		<description>Linear Prediction Coeffecients calculated using autocorrelation and Levinson-Durbin recursion.
+This is the overall standard deviation over all windows.</description>
+		<is_sequential>true</is_sequential>
+		<parallel_dimensions>10</parallel_dimensions>
+	</feature>
+	<feature>
+		<name>Area Method of Moments of MFCCs Overall Standard Deviation</name>
+		<description>2D statistical method of moments of MFCCs
+This is the overall standard deviation over all windows.</description>
+		<is_sequential>true</is_sequential>
+		<parallel_dimensions>100</parallel_dimensions>
+	</feature>
+	<feature>
+		<name>Spectral Centroid Overall Average</name>
+		<description>The centre of mass of the power spectrum.
+This is the overall average over all windows.</description>
+		<is_sequential>true</is_sequential>
+		<parallel_dimensions>1</parallel_dimensions>
+	</feature>
+	<feature>
+		<name>Derivative of Spectral Rolloff Point Overall Average</name>
+		<description>Derivative of Spectral Rolloff Point.The fraction of bins in the power spectrum at which 85% of the power is at lower frequencies. This is a measure of the right-skewedness of the power spectrum.
+This is the overall average over all windows.</description>
+		<is_sequential>true</is_sequential>
+		<parallel_dimensions>1</parallel_dimensions>
+	</feature>
+	<feature>
+		<name>Derivative of Zero Crossings Overall Average</name>
+		<description>Derivative of Zero Crossings.The number of times the waveform changed sign. An indication of frequency as well as noisiness.
+This is the overall average over all windows.</description>
+		<is_sequential>true</is_sequential>
+		<parallel_dimensions>1</parallel_dimensions>
+	</feature>
+	<feature>
+		<name>Standard Deviation of Zero Crossings Overall Average</name>
+		<description>Standard Deviation of Zero Crossings.The number of times the waveform changed sign. An indication of frequency as well as noisiness.
+This is the overall average over all windows.</description>
+		<is_sequential>true</is_sequential>
+		<parallel_dimensions>1</parallel_dimensions>
+	</feature>
+	<feature>
+		<name>Derivative of Strongest Frequency Via Zero Crossings Overall Average</name>
+		<description>Derivative of Strongest Frequency Via Zero Crossings.The strongest frequency component of a signal, in Hz, found via the number of zero-crossings.
+This is the overall average over all windows.</description>
+		<is_sequential>true</is_sequential>
+		<parallel_dimensions>1</parallel_dimensions>
+	</feature>
+	<feature>
+		<name>Standard Deviation of Strongest Frequency Via Zero Crossings Overall Average</name>
+		<description>Standard Deviation of Strongest Frequency Via Zero Crossings.The strongest frequency component of a signal, in Hz, found via the number of zero-crossings.
+This is the overall average over all windows.</description>
+		<is_sequential>true</is_sequential>
+		<parallel_dimensions>1</parallel_dimensions>
+	</feature>
+	<feature>
+		<name>Derivative of Strongest Frequency Via Spectral Centroid Overall Average</name>
+		<description>Derivative of Strongest Frequency Via Spectral Centroid.The strongest frequency component of a signal, in Hz, found via the spectral centroid.
+This is the overall average over all windows.</description>
+		<is_sequential>true</is_sequential>
+		<parallel_dimensions>1</parallel_dimensions>
+	</feature>
+	<feature>
+		<name>Derivative of Running Mean of Strongest Frequency Via Spectral Centroid Overall Average</name>
+		<description>Derivative of Running Mean of Strongest Frequency Via Spectral Centroid.Running Mean of Strongest Frequency Via Spectral Centroid. The strongest frequency component of a signal, in Hz, found via the spectral centroid.
+This is the overall average over all windows.</description>
+		<is_sequential>true</is_sequential>
+		<parallel_dimensions>1</parallel_dimensions>
+	</feature>
+	<feature>
+		<name>Strongest Frequency Via FFT Maximum Overall Average</name>
+		<description>The strongest frequency component of a signal, in Hz, found via finding the FFT bin with the highest power.
+This is the overall average over all windows.</description>
+		<is_sequential>true</is_sequential>
+		<parallel_dimensions>1</parallel_dimensions>
+	</feature>
+	<feature>
+		<name>Derivative of Strongest Frequency Via FFT Maximum Overall Average</name>
+		<description>Derivative of Strongest Frequency Via FFT Maximum.The strongest frequency component of a signal, in Hz, found via finding the FFT bin with the highest power.
+This is the overall average over all windows.</description>
+		<is_sequential>true</is_sequential>
+		<parallel_dimensions>1</parallel_dimensions>
+	</feature>
+	<feature>
+		<name>LPC Overall Average</name>
+		<description>Linear Prediction Coeffecients calculated using autocorrelation and Levinson-Durbin recursion.
+This is the overall average over all windows.</description>
+		<is_sequential>true</is_sequential>
+		<parallel_dimensions>10</parallel_dimensions>
+	</feature>
+	<feature>
+		<name>Area Method of Moments of MFCCs Overall Average</name>
+		<description>2D statistical method of moments of MFCCs
+This is the overall average over all windows.</description>
+		<is_sequential>true</is_sequential>
+		<parallel_dimensions>100</parallel_dimensions>
+	</feature>
+</feature_key_file>
