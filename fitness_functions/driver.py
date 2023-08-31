@@ -27,7 +27,7 @@ rasas = ['Karuna', 'Shanta', 'Shringar', 'Veera']
 
 # normal distribution function
 def g(x, mean, sd):
-    return math.exp(-((x - mean)**2) / (2 * (sd**sd)))
+    return math.exp(-((x - mean)**2) / (2 * (sd**2)))
 
 # to add weights to the fitness values
 def addWeights(fitnessValues):
@@ -72,7 +72,7 @@ if __name__ == "__main__":
 
     results["fitnessValues"] = fitnessValues
 
-    
+
     # Save the results to a JSON file
     output_filename = f"{audio_file.replace('.wav', '')}_10_features.json"
     with open(output_filename, 'w') as json_file:
