@@ -38,7 +38,7 @@ Replace aaramb.wav with the name of your audio file that you want to process. Ma
 	python chromosome_processor.py output.wav
 	```
 
-## Sample Fitness Function Output
+## Sample Fitness Function Output of a Veera rasa based song:
 
 ```json
 {
