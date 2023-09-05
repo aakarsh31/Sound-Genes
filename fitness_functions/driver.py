@@ -6,44 +6,14 @@ import csv
 import pandas as pd
 from decimal import Decimal, localcontext
 
-# Define the audio file path
-audio_file = 'aaramb.wav'
-directory = ""
 
-num_arguments = len(sys.argv)
-
-if num_arguments > 1:
-    audio_file = sys.argv[1]
-# Create an instance of the AudioFeatures class
-audio_features = AudioFeatures(directory = directory, filename = audio_file)
-
-# mean
-meanDf = pd.read_csv("mean.csv") 
-
-# sd
-varDf = pd.read_csv("sd.csv") 
-
-rasas = ['Karuna', 'Shanta', 'Shringar', 'Veera']
-
-weights = {
-            "A1": 0.1,
-            "A2": 0.1,
-            "A3": 0.1,
-            "A4": 0.1,
-            "A5": 0.1,
-            "B1": 0.1,
-            "B2": 0.1,
-            "B3": 0.1,
-            "B4": 0.1,
-            "B5": 0.1
-        }
 
 # normal distribution function
 def g(x, mean, variance):
     return math.exp(-((x - mean)**2) / (2 * variance))
 
 # to add weights to the fitness values
-def addWeights(fitnessValues):
+def addWeights(fitnessValues, weights):
     weightesFitnessvalues = []
     for feature, fitnessValue in fitnessValues.items():
         weightesFitnessvalues.append(Decimal(weights[feature]) * Decimal(fitnessValue))
@@ -51,7 +21,37 @@ def addWeights(fitnessValues):
 
     return fitnessValues
 
-if __name__ == "__main__":
+def main(rasaNumber, audioFile="aaramb.wav"):
+
+    directory = ""
+
+    # num_arguments = len(sys.argv)
+
+    # if num_arguments > 1:
+    #     audio_file = sys.argv[1]
+    # Create an instance of the AudioFeatures class
+    audio_features = AudioFeatures(directory = directory, filename = audioFile)
+
+    # mean
+    meanDf = pd.read_csv("mean.csv") 
+
+    # sd
+    varDf = pd.read_csv("sd.csv") 
+
+    rasas = ['Karuna', 'Shanta', 'Shringar', 'Veera']
+
+    weights = {
+                "A1": 0.1,
+                "A2": 0.1,
+                "A3": 0.1,
+                "A4": 0.1,
+                "A5": 0.1,
+                "B1": 0.1,
+                "B2": 0.1,
+                "B3": 0.1,
+                "B4": 0.1,
+                "B5": 0.1
+            }
     rasa = rasas[0]
     # Call all the functions and store the results
     results = {
@@ -72,27 +72,33 @@ if __name__ == "__main__":
     fitnessValues = {}
 
     # to calculate fitness values from the feature values according to each rasa
-    for rasa in rasas:
-        rasaValues = {}
-        for feature, value in results["featureValues"].items():
-            index = int(feature[1])
-            mean = Decimal(meanDf.iloc[index][f"{rasa} Peak Point"])
-            variance = Decimal(5 * varDf.iloc[index][f"{rasa} SigmaSq in Normal Distbn. "])
-            fitnessValue = g(value, mean, variance)
-            if fitnessValue != 0:
-                rasaValues[feature] = -1 * math.log(fitnessValue)
-            else:
-                rasaValues[feature] = 0.0
+    for i in range(len(rasas)):
+        if rasaNumber == i+1 or rasaNumber==5:
+            rasaValues = {}
+            for feature, value in results["featureValues"].items():
+                index = int(feature[1])
+                mean = Decimal(meanDf.iloc[index][f"{rasas[i]} Peak Point"])
+                variance = Decimal(5 * varDf.iloc[index][f"{rasas[i]} SigmaSq in Normal Distbn. "])
+                fitnessValue = g(value, mean, variance)
+                if fitnessValue != 0:
+                    rasaValues[feature] = -1 * math.log(fitnessValue)
+                else:
+                    rasaValues[feature] = 0.0
 
-        rasaValues = addWeights(rasaValues)
-        fitnessValues[rasa] = rasaValues
+            rasaValues = addWeights(rasaValues, weights)
+            fitnessValues[rasas[i]] = rasaValues
 
     results["fitnessValues"] = fitnessValues
 
 
     # Save the results to a JSON file
-    output_filename = f"{audio_file.replace('.wav', '')}_10_features.json"
+    output_filename = f"{audioFile.replace('.wav', '')}_10_features.json"
     with open(output_filename, 'w') as json_file:
         json.dump(results, json_file, indent=4, default=str)
     
     print(f"Results saved to {output_filename}")
+    
+    return results
+
+
+results = main(5)
