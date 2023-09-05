@@ -41,7 +41,7 @@ More specifically, this repository contains programs to decode chromosomes to Wa
 
         audioFile:
             audio file name
-            ex: aaramb.wav
+            example: aaramb.wav
     ```
 	
 Replace aaramb.wav with the name of your audio file that you want to process. Make sure you have the necessary dependencies installed and configured before running the script.
