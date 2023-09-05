@@ -25,10 +25,8 @@ def main(rasaNumber, audioFile="aaramb.wav"):
 
     directory = ""
 
-    # num_arguments = len(sys.argv)
 
-    # if num_arguments > 1:
-    #     audio_file = sys.argv[1]
+    
     # Create an instance of the AudioFeatures class
     audio_features = AudioFeatures(directory = directory, filename = audioFile)
 
@@ -101,4 +99,11 @@ def main(rasaNumber, audioFile="aaramb.wav"):
     return results
 
 
-results = main(5)
+if __name__ == "__main__":
+
+    num_arguments = len(sys.argv)
+
+    if num_arguments > 1:
+        audioFile = sys.argv[1]
+
+    results = main(rasaNumber=5, audioFile=audioFile)
