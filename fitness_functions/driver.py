@@ -25,15 +25,28 @@ varDf = pd.read_csv("sd.csv")
 
 rasas = ['Karuna', 'Shanta', 'Shringar', 'Veera']
 
+weights = {
+            "A1": 0.1,
+            "A2": 0.1,
+            "A3": 0.1,
+            "A4": 0.1,
+            "A5": 0.1,
+            "B1": 0.1,
+            "B2": 0.1,
+            "B3": 0.1,
+            "B4": 0.1,
+            "B5": 0.1
+        }
+
 # normal distribution function
-def g(x, mean, sd):
-    return math.exp(-((x - mean)**2) / (2 * (sd**2)))
+def g(x, mean, variance):
+    return math.exp(-((x - mean)**2) / (2 * variance))
 
 # to add weights to the fitness values
 def addWeights(fitnessValues):
     weightesFitnessvalues = []
     for feature, fitnessValue in fitnessValues.items():
-        weightesFitnessvalues.append(Decimal(0.1) * Decimal(fitnessValue))
+        weightesFitnessvalues.append(Decimal(weights[feature]) * Decimal(fitnessValue))
     fitnessValues["weightedSum"] = sum(weightesFitnessvalues)
 
     return fitnessValues
@@ -64,8 +77,12 @@ if __name__ == "__main__":
         for feature, value in results["featureValues"].items():
             index = int(feature[1])
             mean = Decimal(meanDf.iloc[index][f"{rasa} Peak Point"])
-            sd = Decimal(varDf.iloc[index][f"{rasa} SigmaSq in Normal Distbn. "])
-            rasaValues[feature] = g(value, mean, sd)
+            variance = Decimal(5 * varDf.iloc[index][f"{rasa} SigmaSq in Normal Distbn. "])
+            fitnessValue = g(value, mean, variance)
+            if fitnessValue != 0:
+                rasaValues[feature] = -1 * math.log(fitnessValue)
+            else:
+                rasaValues[feature] = 0.0
 
         rasaValues = addWeights(rasaValues)
         fitnessValues[rasa] = rasaValues
