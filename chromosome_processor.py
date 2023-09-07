@@ -138,7 +138,7 @@ if __name__ == "__main__":
         chromosome = sys.argv[1]
         audio_file_name = sys.argv[2]
     elif num_arguments == 1:
-        audio_file_name = "sample_output.wav"
+        audio_file_name = "sample_output"
     
     chromosome = generate_full_chromosome()
     decode(chromosome, audio_file_name + ".wav")

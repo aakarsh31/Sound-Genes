@@ -6,8 +6,6 @@ import csv
 import pandas as pd
 from decimal import Decimal, localcontext
 
-
-
 # normal distribution function
 def g(x, mean, variance):
     return math.exp(-((x - mean)**2) / (2 * variance))
@@ -17,6 +15,8 @@ def addWeights(fitnessValues, weights):
     weightesFitnessvalues = []
     for feature, fitnessValue in fitnessValues.items():
         weightesFitnessvalues.append(Decimal(weights[feature]) * Decimal(fitnessValue))
+    
+    # adding up the weighted fitness values
     fitnessValues["weightedSum"] = sum(weightesFitnessvalues)
 
     return fitnessValues
@@ -25,16 +25,11 @@ def main(rasaNumber, audioFile="aaramb.wav"):
 
     directory = ""
 
-
-    
     # Create an instance of the AudioFeatures class
     audio_features = AudioFeatures(directory = directory, filename = audioFile)
 
-    # mean
-    meanDf = pd.read_csv("mean.csv") 
-
-    # sd
-    varDf = pd.read_csv("sd.csv") 
+    # final data needed for the gaussian function
+    gaussianData = pd.read_csv("gaussianData.csv") 
 
     rasas = ['Karuna', 'Shanta', 'Shringar', 'Veera']
 
@@ -75,8 +70,9 @@ def main(rasaNumber, audioFile="aaramb.wav"):
             rasaValues = {}
             for feature, value in results["featureValues"].items():
                 index = int(feature[1])
-                mean = Decimal(meanDf.iloc[index][f"{rasas[i]} Peak Point"])
-                variance = Decimal(5 * varDf.iloc[index][f"{rasas[i]} SigmaSq in Normal Distbn. "])
+                mean = Decimal(gaussianData.iloc[index][f"{rasas[i]} Peak Point"])
+                variance = Decimal(gaussianData.iloc[index]["5*SigmaSq obtained in Col G"])
+                # calling the fitness function
                 fitnessValue = g(value, mean, variance)
                 if fitnessValue != 0:
                     rasaValues[feature] = -1 * math.log(fitnessValue)
@@ -102,7 +98,7 @@ def main(rasaNumber, audioFile="aaramb.wav"):
 if __name__ == "__main__":
 
     num_arguments = len(sys.argv)
-
+    audioFile = "aaramb.wav"
     if num_arguments > 1:
         audioFile = sys.argv[1]
 
