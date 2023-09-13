@@ -124,10 +124,10 @@ def enlarge_chromosome(chromosome, waves_per_bin=20, min_frequency=20.0, max_fre
     for frame in chromosome:
         current_frequency = min_frequency
         for bin in frame:
-            bin[0].append(current_frequency)
+            bin[0].append(440)
             for _ in range(waves_per_bin-1):
                 current_frequency += frequency_difference
-                bin.append([bin[0][0], bin[0][1], current_frequency])
+                bin.append([bin[0][0], bin[0][1], 440])
         print(frame)
 
     return chromosome
@@ -152,7 +152,7 @@ if __name__ == "__main__":
     
     chromosome = generate_full_chromosome()
 
-    if audio_file_name[-4] != ".wav" or len(audio_file_name) < 4:
+    if len(audio_file_name) < 4 or audio_file_name[-4] != ".wav" :
         audio_file_name += ".wav"
     decode(chromosome, audio_file_name)
 
