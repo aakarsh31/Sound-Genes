@@ -5,6 +5,7 @@ import math
 import csv
 import pandas as pd
 from decimal import Decimal, localcontext
+import time
 
 # normal distribution function
 def g(x, mean, variance):
@@ -23,6 +24,7 @@ def addWeights(fitnessValues, weights):
 
 def main(rasaNumber, audioFile="aaramb.wav"):
 
+    startTime = time.time()
     directory = ""
 
     # Create an instance of the AudioFeatures class
@@ -83,7 +85,7 @@ def main(rasaNumber, audioFile="aaramb.wav"):
             fitnessValues[rasas[i]] = rasaValues
 
     results["fitnessValues"] = fitnessValues
-
+    print("The Fitness Function Execution Time is :", (time.time()-startTime), "s")
 
     # Save the results to a JSON file
     output_filename = f"{audioFile.replace('.wav', '')}_10_features.json"
