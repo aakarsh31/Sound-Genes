@@ -6,6 +6,8 @@ import time
 import sys
 
 def decode(chromosome, filename):
+    chromosome = enlarge_chromosome2(chromosome)
+    print(chromosome)
     start = time.time()
     frame_duration = 0.2  # seconds
     frames_per_sec = 44100
@@ -22,22 +24,16 @@ def decode(chromosome, filename):
     for frame_idx, frame in enumerate(chromosome):
         if frame_idx % 33:
             print(f"{frame_idx}/300")
+        # print(frame)
         for bin_idx, bin in enumerate(frame):
-            for wave in bin:
-            # for i in range(0, len(bin), 3):
-                # print(111111111111111111111111111111111111)
-                # print(bin[i], bin[i+1], bin[i+2])
-                # print(1111111111111111)
+            # print(bin)
+            for i,wave in enumerate(bin):
                 amplitude = wave[0]
                 phase = wave[1]
                 frequency = wave[2]
-                # if i == 57:
-                #     if bin_idx in range(0,10):
-                #         # print(k)
-                #         k+=1
-                #         amplitude = bin[0]
-                #         # print(bin[0])
-                # # print(i)
+                # if i == 18:
+                #     if bin_idx == 3:
+                #         amplitude = bin[0][0]
                 bin_samples = generate_bin_samples(amplitude, phase, frequency, frame_duration, frames_per_sec, waves_per_bin)
                 segment_start = frame_idx * int(frame_duration * frames_per_sec)
                 segment_end = (frame_idx + 1) * int(frame_duration * frames_per_sec)
@@ -106,12 +102,32 @@ def generate_chromosome(frames = 300, bins=50, amplitude_range=1):
             amplitude = random.uniform(-amplitude_range,amplitude_range)
             phase = random.uniform(0.0, 360.0)
             amplitude = 0.5
-            phase = 0.0
+            # phase = 0.0
             bin.append([amplitude, phase])
             frame.append(bin)
 
         chromosome.append(frame)
    
+    return chromosome
+
+
+### this version of the enlarge function works perfectly with the DE code
+def enlarge_chromosome2(chromosome, waves_per_bin=20, min_frequency=20.0, max_frequency=20020.0):
+    # Enlarge the chromosome by adding more waves to each bin
+
+    frequency_Range = max_frequency - min_frequency
+    current_frequency = min_frequency
+    frequency_difference = frequency_Range / 10000
+
+    for frame in chromosome:
+        current_frequency = min_frequency
+        for i in range(len(frame)):
+            # print(i)
+            frame[i] = [frame[i]]
+            frame[i][0].append(current_frequency)
+            for _ in range(waves_per_bin-1):
+                current_frequency += frequency_difference
+                frame[i].append([frame[i][0][0], frame[i][0][1], current_frequency])
     return chromosome
 
 def enlarge_chromosome(chromosome, waves_per_bin=20, min_frequency=20.0, max_frequency=20020.0):
@@ -124,11 +140,11 @@ def enlarge_chromosome(chromosome, waves_per_bin=20, min_frequency=20.0, max_fre
     for frame in chromosome:
         current_frequency = min_frequency
         for bin in frame:
-            bin[0].append(440)
+            bin[0].append(10000)
             for _ in range(waves_per_bin-1):
                 current_frequency += frequency_difference
-                bin.append([bin[0][0], bin[0][1], 440])
-        print(frame)
+                bin.append([bin[0][0], bin[0][1], 10000])
+        # print(frame)
 
     return chromosome
 
@@ -150,7 +166,7 @@ if __name__ == "__main__":
     elif num_arguments == 1:
         audio_file_name = "sample_output"
     
-    chromosome = generate_full_chromosome()
+    chromosome = generate_chromosome()
 
     if len(audio_file_name) < 4 or audio_file_name[-4] != ".wav" :
         audio_file_name += ".wav"

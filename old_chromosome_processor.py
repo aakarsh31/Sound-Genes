@@ -80,10 +80,10 @@ def generate_chromosome():
             amplitude = random.uniform(-1.0, 1.0)
             phase = random.uniform(0.0, 360.0)
             for wave_idx in range(waves_per_bin):
-                bin_waves.append(0.5)
-                bin_waves.append(0.0)
-                bin_waves.append(16000)
-                #current_frequency+=frequency_difference
+                bin_waves.append(amplitude)
+                bin_waves.append(phase)
+                bin_waves.append(current_frequency)
+                current_frequency+=frequency_difference
 
             frame.append(bin_waves)
         # print(bin_waves)
