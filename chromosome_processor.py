@@ -101,7 +101,7 @@ def generate_chromosome(frames = 300, bins=50, amplitude_range=1):
             bin = []
             amplitude = random.uniform(-amplitude_range,amplitude_range)
             phase = random.uniform(0.0, 360.0)
-            amplitude = 0.5
+            # amplitude = 0.5
             # phase = 0.0
             bin.append([amplitude, phase])
             frame.append(bin)
@@ -117,7 +117,7 @@ def enlarge_chromosome2(chromosome, waves_per_bin=20, min_frequency=20.0, max_fr
 
     frequency_Range = max_frequency - min_frequency
     current_frequency = min_frequency
-    frequency_difference = frequency_Range / 10000
+    frequency_difference = frequency_Range / 1000
 
     for frame in chromosome:
         current_frequency = min_frequency
@@ -135,15 +135,15 @@ def enlarge_chromosome(chromosome, waves_per_bin=20, min_frequency=20.0, max_fre
 
     frequency_Range = max_frequency - min_frequency
     current_frequency = min_frequency
-    frequency_difference = frequency_Range / 10000
+    frequency_difference = frequency_Range / 1000
 
     for frame in chromosome:
         current_frequency = min_frequency
         for bin in frame:
-            bin[0].append(10000)
+            bin[0].append(current_frequency)
             for _ in range(waves_per_bin-1):
                 current_frequency += frequency_difference
-                bin.append([bin[0][0], bin[0][1], 10000])
+                bin.append([bin[0][0], bin[0][1], current_frequency])
         # print(frame)
 
     return chromosome
