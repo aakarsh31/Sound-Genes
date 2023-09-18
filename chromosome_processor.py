@@ -7,7 +7,6 @@ import sys
 
 def decode(chromosome, filename):
     chromosome = enlarge_chromosome2(chromosome)
-    print(chromosome)
     start = time.time()
     frame_duration = 0.2  # seconds
     frames_per_sec = 44100
@@ -122,7 +121,8 @@ def enlarge_chromosome2(chromosome, waves_per_bin=20, min_frequency=20.0, max_fr
     for frame in chromosome:
         current_frequency = min_frequency
         for i in range(len(frame)):
-            # print(i)
+            if current_frequency != min_frequency:
+                current_frequency+=frequency_difference
             frame[i] = [frame[i]]
             frame[i][0].append(current_frequency)
             for _ in range(waves_per_bin-1):
@@ -140,6 +140,8 @@ def enlarge_chromosome(chromosome, waves_per_bin=20, min_frequency=20.0, max_fre
     for frame in chromosome:
         current_frequency = min_frequency
         for bin in frame:
+            if current_frequency != min_frequency:
+                current_frequency+=frequency_difference
             bin[0].append(current_frequency)
             for _ in range(waves_per_bin-1):
                 current_frequency += frequency_difference

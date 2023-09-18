@@ -27,16 +27,16 @@ def decode(chromosome, filename):
                 # print(111111111111111111111111111111111111)
                 # print(bin_waves[i], bin_waves[i+1], bin_waves[i+2])
                 # print(1111111111111111)
-                amplitude = 0.0
+                amplitude = bin_waves[i]
                 phase = bin_waves[i+1]
                 frequency = bin_waves[i+2]
-                if i == 57:
-                    if bin_idx in range(0,2):
-                        # print(k)
-                        k+=1
-                        amplitude = bin_waves[0]
-                        # print(bin_waves[0])
-                # # print(i)
+                # if i == 57:
+                #     if bin_idx in range(0,2):
+                #         # print(k)
+                #         k+=1
+                #         amplitude = bin_waves[0]
+                #         # print(bin_waves[0])
+                # # # print(i)
                 bin_samples = generate_bin_samples(amplitude, phase, frequency, frame_duration, frames_per_sec, waves_per_bin)
                 segment_start = frame_idx * int(frame_duration * frames_per_sec)
                 segment_end = (frame_idx + 1) * int(frame_duration * frames_per_sec)
@@ -80,8 +80,8 @@ def generate_chromosome():
             amplitude = random.uniform(-1.0, 1.0)
             phase = random.uniform(0.0, 360.0)
             for wave_idx in range(waves_per_bin):
-                bin_waves.append(amplitude)
-                bin_waves.append(phase)
+                bin_waves.append(1.0)
+                bin_waves.append(0.0)
                 bin_waves.append(current_frequency)
                 current_frequency+=frequency_difference
 
@@ -113,6 +113,7 @@ if __name__ == "__main__":
         audio_file_name = "sample_output"
 
     chromosome = generate_chromosome()
+    # print(chromosome[0])
 
     if len(audio_file_name) < 4 or audio_file_name[-4] != ".wav":
         audio_file_name += ".wav"
