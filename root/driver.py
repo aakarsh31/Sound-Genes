@@ -22,7 +22,7 @@ def addWeights(fitnessValues, weights):
 
     return fitnessValues
 
-def main(rasaNumber, audioFile="aaramb.wav"):
+def computeFitnessValues(rasaNumber, audioFile="aaramb.wav"):
 
     startTime = time.time()
     directory = ""
@@ -104,4 +104,4 @@ if __name__ == "__main__":
     if num_arguments > 1:
         audioFile = sys.argv[1]
 
-    results = main(rasaNumber=1, audioFile=audioFile)
+    results = computeFitnessValues(rasaNumber=1, audioFile=audioFile)

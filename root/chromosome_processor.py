@@ -9,7 +9,7 @@ from tqdm import tqdm
 # Function to decode the chromosome into audio and save it to a wave file
 def decode(chromosome, filename):
     # Enlarge the chromosome to add more waves to each bin
-    chromosome = enlarge_chromosome(chromosome, waves_per_bin=20, min_frequency=20.0, max_frequency=20020.0)
+    enlargedChromosome = enlarge_chromosome(chromosome, waves_per_bin=20, min_frequency=20.0, max_frequency=20020.0)
 
     # Record the start time for execution
     start = time.time()
@@ -19,15 +19,15 @@ def decode(chromosome, filename):
     frames_per_sec = 44100
     waves_per_bin = 20
 
-    num_frames = len(chromosome)
+    num_frames = len(enlargedChromosome)
     num_samples = int(frames_per_sec * frame_duration * num_frames)
 
     # Initialize an array to hold the waveform samples
     waveform = np.zeros(num_samples, dtype=np.int16)
-    k = 0
 
-    with tqdm(total=len(chromosome), desc="Converting each frame to audio") as pbar:
-        for frame_idx, frame in enumerate(chromosome):
+    # tqdm is a component from the tqdm library that helps us see the progress bar
+    with tqdm(total=len(enlargedChromosome), desc="Converting each frame to audio") as pbar:
+        for frame_idx, frame in enumerate(enlargedChromosome):
             pbar.update(1)
             for bin_idx, bin in enumerate(frame):
                 for i, wave in enumerate(bin):
@@ -41,11 +41,12 @@ def decode(chromosome, filename):
 
     # Print information about the waveform and chromosome
     print(waveform.shape)
-    print(np.array(chromosome).shape)
+    print(np.array(enlargedChromosome).shape)
 
     # Write the waveform to a wave file
     write_wave(filename, waveform)
     print("Decoding completed!")
+    print(f"Output Audio Filename: {filename}")
     print("The Decoding Execution Time is:", (time.time() - start), "s")
 
 def generate_bin_samples(amplitude, phase, frequency, duration, frames_per_sec, waves_per_bin):
@@ -117,7 +118,7 @@ def enlarge_chromosome(chromosome, waves_per_bin=20, min_frequency=20.0, max_fre
             for _ in range(waves_per_bin - 1):
                 current_frequency += frequency_difference
                 frame[i].append([frame[i][0][0], frame[i][0][1], current_frequency])
-    return chromosome
+    return chromosome                                           
 
 
 if __name__ == "__main__":

@@ -1,0 +1,335 @@
+<?xml version="1.0"?>
+<!DOCTYPE feature_vector_file [
+   <!ELEMENT feature_vector_file (comments, data_set+)>
+   <!ELEMENT comments (#PCDATA)>
+   <!ELEMENT data_set (data_set_id, section*, feature*)>
+   <!ELEMENT data_set_id (#PCDATA)>
+   <!ELEMENT section (feature+)>
+   <!ATTLIST section start CDATA ""
+                     stop CDATA "">
+   <!ELEMENT feature (name, v+)>
+   <!ELEMENT name (#PCDATA)>
+   <!ELEMENT v (#PCDATA)>
+]>
+
+<feature_vector_file>
+
+   <comments></comments>
+
+	<data_set>
+		<data_set_id>..\test_data\trial.wav</data_set_id>
+		<feature>
+			<name>Spectral Centroid Overall Standard Deviation</name>
+			<v>6.867E0</v>
+		</feature>
+		<feature>
+			<name>Derivative of Spectral Rolloff Point Overall Standard Deviation</name>
+			<v>4.403E-2</v>
+		</feature>
+		<feature>
+			<name>Derivative of Zero Crossings Overall Standard Deviation</name>
+			<v>1.406E1</v>
+		</feature>
+		<feature>
+			<name>Standard Deviation of Zero Crossings Overall Standard Deviation</name>
+			<v>1.849E1</v>
+		</feature>
+		<feature>
+			<name>Derivative of Strongest Frequency Via Zero Crossings Overall Standard Deviation</name>
+			<v>2.196E2</v>
+		</feature>
+		<feature>
+			<name>Standard Deviation of Strongest Frequency Via Zero Crossings Overall Standard Deviation</name>
+			<v>2.889E2</v>
+		</feature>
+		<feature>
+			<name>Derivative of Strongest Frequency Via Spectral Centroid Overall Standard Deviation</name>
+			<v>2.969E2</v>
+		</feature>
+		<feature>
+			<name>Derivative of Running Mean of Strongest Frequency Via Spectral Centroid Overall Standard Deviation</name>
+			<v>3.016E0</v>
+		</feature>
+		<feature>
+			<name>Strongest Frequency Via FFT Maximum Overall Standard Deviation</name>
+			<v>2.322E3</v>
+		</feature>
+		<feature>
+			<name>Derivative of Strongest Frequency Via FFT Maximum Overall Standard Deviation</name>
+			<v>3.334E3</v>
+		</feature>
+		<feature>
+			<name>LPC Overall Standard Deviation</name>
+			<v>4.654E-2</v>
+			<v>4.242E-2</v>
+			<v>4.537E-2</v>
+			<v>4.643E-2</v>
+			<v>4.457E-2</v>
+			<v>4.107E-2</v>
+			<v>4.424E-2</v>
+			<v>4.303E-2</v>
+			<v>4.471E-2</v>
+			<v>0E0</v>
+		</feature>
+		<feature>
+			<name>Area Method of Moments of MFCCs Overall Standard Deviation</name>
+			<v>9.742E-1</v>
+			<v>8.243E-1</v>
+			<v>6.975E-1</v>
+			<v>5.902E-1</v>
+			<v>4.994E-1</v>
+			<v>4.226E-1</v>
+			<v>3.576E-1</v>
+			<v>3.025E-1</v>
+			<v>2.56E-1</v>
+			<v>2.166E-1</v>
+			<v>7.794E-1</v>
+			<v>6.595E-1</v>
+			<v>5.58E-1</v>
+			<v>4.722E-1</v>
+			<v>3.995E-1</v>
+			<v>3.38E-1</v>
+			<v>2.86E-1</v>
+			<v>2.42E-1</v>
+			<v>2.048E-1</v>
+			<v>1.733E-1</v>
+			<v>6.235E-1</v>
+			<v>5.276E-1</v>
+			<v>4.464E-1</v>
+			<v>3.777E-1</v>
+			<v>3.196E-1</v>
+			<v>2.704E-1</v>
+			<v>2.288E-1</v>
+			<v>1.936E-1</v>
+			<v>1.638E-1</v>
+			<v>1.386E-1</v>
+			<v>4.988E-1</v>
+			<v>4.22E-1</v>
+			<v>3.571E-1</v>
+			<v>3.022E-1</v>
+			<v>2.557E-1</v>
+			<v>2.164E-1</v>
+			<v>1.831E-1</v>
+			<v>1.549E-1</v>
+			<v>1.311E-1</v>
+			<v>1.109E-1</v>
+			<v>3.99E-1</v>
+			<v>3.376E-1</v>
+			<v>2.857E-1</v>
+			<v>2.417E-1</v>
+			<v>2.046E-1</v>
+			<v>1.731E-1</v>
+			<v>1.465E-1</v>
+			<v>1.239E-1</v>
+			<v>1.049E-1</v>
+			<v>8.873E-2</v>
+			<v>3.192E-1</v>
+			<v>2.701E-1</v>
+			<v>2.286E-1</v>
+			<v>1.934E-1</v>
+			<v>1.636E-1</v>
+			<v>1.385E-1</v>
+			<v>1.172E-1</v>
+			<v>9.914E-2</v>
+			<v>8.389E-2</v>
+			<v>7.098E-2</v>
+			<v>2.554E-1</v>
+			<v>2.161E-1</v>
+			<v>1.828E-1</v>
+			<v>1.547E-1</v>
+			<v>1.309E-1</v>
+			<v>1.108E-1</v>
+			<v>9.373E-2</v>
+			<v>7.931E-2</v>
+			<v>6.711E-2</v>
+			<v>5.678E-2</v>
+			<v>2.043E-1</v>
+			<v>1.729E-1</v>
+			<v>1.463E-1</v>
+			<v>1.238E-1</v>
+			<v>1.047E-1</v>
+			<v>8.862E-2</v>
+			<v>7.498E-2</v>
+			<v>6.345E-2</v>
+			<v>5.369E-2</v>
+			<v>4.543E-2</v>
+			<v>1.634E-1</v>
+			<v>1.383E-1</v>
+			<v>1.17E-1</v>
+			<v>9.902E-2</v>
+			<v>8.378E-2</v>
+			<v>7.089E-2</v>
+			<v>5.999E-2</v>
+			<v>5.076E-2</v>
+			<v>4.295E-2</v>
+			<v>3.634E-2</v>
+			<v>1.308E-1</v>
+			<v>1.106E-1</v>
+			<v>9.362E-2</v>
+			<v>7.921E-2</v>
+			<v>6.703E-2</v>
+			<v>5.672E-2</v>
+			<v>4.799E-2</v>
+			<v>4.061E-2</v>
+			<v>3.436E-2</v>
+			<v>2.907E-2</v>
+		</feature>
+		<feature>
+			<name>Spectral Centroid Overall Average</name>
+			<v>1.273E2</v>
+		</feature>
+		<feature>
+			<name>Derivative of Spectral Rolloff Point Overall Average</name>
+			<v>5E-5</v>
+		</feature>
+		<feature>
+			<name>Derivative of Zero Crossings Overall Average</name>
+			<v>-1.429E-1</v>
+		</feature>
+		<feature>
+			<name>Standard Deviation of Zero Crossings Overall Average</name>
+			<v>2.55E3</v>
+		</feature>
+		<feature>
+			<name>Derivative of Strongest Frequency Via Zero Crossings Overall Average</name>
+			<v>-2.233E0</v>
+		</feature>
+		<feature>
+			<name>Standard Deviation of Strongest Frequency Via Zero Crossings Overall Average</name>
+			<v>3.985E4</v>
+		</feature>
+		<feature>
+			<name>Derivative of Strongest Frequency Via Spectral Centroid Overall Average</name>
+			<v>1.115E0</v>
+		</feature>
+		<feature>
+			<name>Derivative of Running Mean of Strongest Frequency Via Spectral Centroid Overall Average</name>
+			<v>1.21E-2</v>
+		</feature>
+		<feature>
+			<name>Strongest Frequency Via FFT Maximum Overall Average</name>
+			<v>3.952E3</v>
+		</feature>
+		<feature>
+			<name>Derivative of Strongest Frequency Via FFT Maximum Overall Average</name>
+			<v>4.833E-1</v>
+		</feature>
+		<feature>
+			<name>LPC Overall Average</name>
+			<v>-1.147E-3</v>
+			<v>3.551E-3</v>
+			<v>-2.8E-4</v>
+			<v>4.348E-3</v>
+			<v>3.704E-4</v>
+			<v>3.855E-3</v>
+			<v>-9.563E-4</v>
+			<v>1.744E-3</v>
+			<v>2.495E-3</v>
+			<v>0E0</v>
+		</feature>
+		<feature>
+			<name>Area Method of Moments of MFCCs Overall Average</name>
+			<v>-4.117E-1</v>
+			<v>-3.483E-1</v>
+			<v>-2.947E-1</v>
+			<v>-2.494E-1</v>
+			<v>-2.11E-1</v>
+			<v>-1.786E-1</v>
+			<v>-1.511E-1</v>
+			<v>-1.278E-1</v>
+			<v>-1.082E-1</v>
+			<v>-9.153E-2</v>
+			<v>-3.293E-1</v>
+			<v>-2.787E-1</v>
+			<v>-2.358E-1</v>
+			<v>-1.995E-1</v>
+			<v>-1.688E-1</v>
+			<v>-1.428E-1</v>
+			<v>-1.209E-1</v>
+			<v>-1.023E-1</v>
+			<v>-8.654E-2</v>
+			<v>-7.323E-2</v>
+			<v>-2.635E-1</v>
+			<v>-2.229E-1</v>
+			<v>-1.886E-1</v>
+			<v>-1.596E-1</v>
+			<v>-1.351E-1</v>
+			<v>-1.143E-1</v>
+			<v>-9.67E-2</v>
+			<v>-8.182E-2</v>
+			<v>-6.923E-2</v>
+			<v>-5.858E-2</v>
+			<v>-2.108E-1</v>
+			<v>-1.783E-1</v>
+			<v>-1.509E-1</v>
+			<v>-1.277E-1</v>
+			<v>-1.08E-1</v>
+			<v>-9.142E-2</v>
+			<v>-7.736E-2</v>
+			<v>-6.546E-2</v>
+			<v>-5.539E-2</v>
+			<v>-4.686E-2</v>
+			<v>-1.686E-1</v>
+			<v>-1.427E-1</v>
+			<v>-1.207E-1</v>
+			<v>-1.022E-1</v>
+			<v>-8.643E-2</v>
+			<v>-7.314E-2</v>
+			<v>-6.189E-2</v>
+			<v>-5.236E-2</v>
+			<v>-4.431E-2</v>
+			<v>-3.749E-2</v>
+			<v>-1.349E-1</v>
+			<v>-1.141E-1</v>
+			<v>-9.658E-2</v>
+			<v>-8.172E-2</v>
+			<v>-6.915E-2</v>
+			<v>-5.851E-2</v>
+			<v>-4.951E-2</v>
+			<v>-4.189E-2</v>
+			<v>-3.545E-2</v>
+			<v>-2.999E-2</v>
+			<v>-1.079E-1</v>
+			<v>-9.131E-2</v>
+			<v>-7.726E-2</v>
+			<v>-6.538E-2</v>
+			<v>-5.532E-2</v>
+			<v>-4.681E-2</v>
+			<v>-3.961E-2</v>
+			<v>-3.351E-2</v>
+			<v>-2.836E-2</v>
+			<v>-2.399E-2</v>
+			<v>-8.633E-2</v>
+			<v>-7.305E-2</v>
+			<v>-6.181E-2</v>
+			<v>-5.23E-2</v>
+			<v>-4.425E-2</v>
+			<v>-3.745E-2</v>
+			<v>-3.169E-2</v>
+			<v>-2.681E-2</v>
+			<v>-2.269E-2</v>
+			<v>-1.92E-2</v>
+			<v>-6.906E-2</v>
+			<v>-5.844E-2</v>
+			<v>-4.945E-2</v>
+			<v>-4.184E-2</v>
+			<v>-3.54E-2</v>
+			<v>-2.996E-2</v>
+			<v>-2.535E-2</v>
+			<v>-2.145E-2</v>
+			<v>-1.815E-2</v>
+			<v>-1.536E-2</v>
+			<v>-5.525E-2</v>
+			<v>-4.675E-2</v>
+			<v>-3.956E-2</v>
+			<v>-3.347E-2</v>
+			<v>-2.832E-2</v>
+			<v>-2.397E-2</v>
+			<v>-2.028E-2</v>
+			<v>-1.716E-2</v>
+			<v>-1.452E-2</v>
+			<v>-1.229E-2</v>
+		</feature>
+	</data_set>
+
+</feature_vector_file>

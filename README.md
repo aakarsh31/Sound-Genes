@@ -28,7 +28,7 @@ More specifically, this repository contains programs to decode chromosomes to Wa
 	```bat
 	python driver.py aaramb.wav
 	```
-4. Utilize the main() function from the `driver.py` file to obtain the fitness values.
+4. Utilize the computeFitnessValues() function from the `driver.py` file to obtain the fitness values.
 	```bat
 	parameters:
 		rasaNumber:
