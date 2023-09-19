@@ -33,7 +33,7 @@ Ps= 5
 Gs= 5
 # Generation Size
 
-Cl= 300
+Cl= 100
 # Chromosome Length
 # This is the number of Time Frames in a single song
 
@@ -159,7 +159,7 @@ def poprun(Inp):
 
 
     for z in range(0,10):
-        print(f"z: {z}")
+        # print(f"z: {z}")
     # Maximum number of times the chromosome should be revaluated if it is out of bounds
 
         Mut=deepcopy(Pop[i])
@@ -300,11 +300,8 @@ def main():
             Test[i].append([rd.uniform(0,A), rd.uniform(0,360)])
 
     # Initiation of Test Chromosome
-    print(f"Pop: {Pop}")
     popinit()
     # Initiate and store the Population Dictionary
-
-    print(f"Pop: {Pop}")
 
     Gc=0
     # Generation Counter
@@ -324,7 +321,7 @@ def main():
     # The inner components will be explained further in the function itself
 
     while Gc>0:
-        print(f"Gc: {Gc}")
+        print(f"Gc: {Gc}/{Gs}")
         Gc=Gc-1
     # Run the while loop Gs times
     # This imitates Gs Generations of Evolution
