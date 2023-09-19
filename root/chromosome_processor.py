@@ -112,6 +112,23 @@ def generate_chromosome(frames = 300, bins=50, amplitude_range=1):
    
     return chromosome
 
+def generate_chromosome2(Cl=300, Gl=50, A=1.0):
+# Cl = Number of frames
+# Gl = Number of bins per frame
+# A = Amplitude Range
+
+# Random Chromosome Generator
+# Creates a random chromosome with the permissible boundary values
+
+    L=[]
+
+    for i in range(Cl):
+        L.append([])
+        
+        for j in range(Gl):
+            L[i].append([random.uniform(0,A), random.uniform(0,360)])
+    
+    return L
 
 ### this version of the enlarge function works perfectly with the DE code
 def enlarge_chromosome2(chromosome, waves_per_bin=20, min_frequency=20.0, max_frequency=20020.0):
@@ -133,28 +150,28 @@ def enlarge_chromosome2(chromosome, waves_per_bin=20, min_frequency=20.0, max_fr
                 frame[i].append([frame[i][0][0], frame[i][0][1], current_frequency])
     return chromosome
 
-def enlarge_chromosome(chromosome, waves_per_bin=20, min_frequency=20.0, max_frequency=20020.0):
-    # Enlarge the chromosome by adding more waves to each bin
+# def enlarge_chromosome(chromosome, waves_per_bin=20, min_frequency=20.0, max_frequency=20020.0):
+#     # Enlarge the chromosome by adding more waves to each bin
 
-    frequency_Range = max_frequency - min_frequency
-    current_frequency = min_frequency
-    frequency_difference = frequency_Range / 1000
+#     frequency_Range = max_frequency - min_frequency
+#     current_frequency = min_frequency
+#     frequency_difference = frequency_Range / 1000
 
-    for frame in chromosome:
-        current_frequency = min_frequency
-        for bin in frame:
-            if current_frequency != min_frequency:
-                current_frequency+=frequency_difference
-            bin[0].append(current_frequency)
-            for _ in range(waves_per_bin-1):
-                current_frequency += frequency_difference
-                bin.append([bin[0][0], bin[0][1], current_frequency])
-        # print(frame)
+#     for frame in chromosome:
+#         current_frequency = min_frequency
+#         for bin in frame:
+#             if current_frequency != min_frequency:
+#                 current_frequency+=frequency_difference
+#             bin[0].append(current_frequency)
+#             for _ in range(waves_per_bin-1):
+#                 current_frequency += frequency_difference
+#                 bin.append([bin[0][0], bin[0][1], current_frequency])
+#         # print(frame)
 
-    return chromosome
+#     return chromosome
 
-def generate_full_chromosome(frames = 300, bins=50, amplitude_range=1, waves_per_bin=20, min_frequency=20.0, max_frequency=20020.0):
-    return enlarge_chromosome(generate_chromosome(frames=frames, bins=bins, amplitude_range=amplitude_range), waves_per_bin=waves_per_bin, min_frequency=min_frequency, max_frequency=max_frequency)
+# def generate_full_chromosome(frames = 300, bins=50, amplitude_range=1, waves_per_bin=20, min_frequency=20.0, max_frequency=20020.0):
+#     return enlarge_chromosome(generate_chromosome(frames=frames, bins=bins, amplitude_range=amplitude_range), waves_per_bin=waves_per_bin, min_frequency=min_frequency, max_frequency=max_frequency)
 
 
 if __name__ == "__main__":
@@ -171,7 +188,7 @@ if __name__ == "__main__":
     elif num_arguments == 1:
         audio_file_name = "sample_output"
     
-    chromosome = generate_chromosome()
+    chromosome = generate_chromosome2()
 
     if len(audio_file_name) < 4 or audio_file_name[-4] != ".wav" :
         audio_file_name += ".wav"

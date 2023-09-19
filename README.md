@@ -19,9 +19,9 @@ More specifically, this repository contains programs to decode chromosomes to Wa
 
 1. Place your sample audio file in the test_data folder
 
-2. Navigate to the `fitness_functions` directory:
+2. Navigate to the `root` directory:
 	```bat
-	cd fitness_functions
+	cd root
 	```
 
 3. Run the Python driver script with the desired audio file:
