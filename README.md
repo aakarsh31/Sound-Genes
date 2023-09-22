@@ -17,6 +17,8 @@ More specifically, this repository contains programs to decode chromosomes to Wa
 
 ## Complete Differential Evolution Program Usage
 
+0. Download the whole repository by using the green colored `code` button in the middle-right of the screen.
+
 1. Navigate to the `root` directory:
 	```bat
 	cd root
