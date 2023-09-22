@@ -15,6 +15,22 @@ More specifically, this repository contains programs to decode chromosomes to Wa
 	pip install -r requirements.txt
 	```
 
+## Complete Differential Evolution Program Usage
+
+1. Navigate to the `root` directory:
+	```bat
+	cd root
+	```
+
+2. Verify the hyperparameters in the `integratedDE.py` file.
+
+3. Run the `integratedDE.py` file.
+	```bat
+	python integratedDE.py
+	```
+4. Evaluate the results that get generated in the `audio_output` and `features_output` directories.
+
+
 ## Fitness Functions Usage
 
 1. Place your sample audio file in the test_data folder
@@ -48,7 +64,12 @@ Replace aaramb.wav with the name of your audio file that you want to process. Ma
 
 ## Chromosome Processor Usage
 
-1. Run the chromosome_processor script with an argument of output audio filename to generate a random chromosome and convert it to a wav file:
+1. Navigate to the `root` directory:
+	```bat
+	cd root
+	```
+
+2. Run the chromosome_processor script with an argument of output audio filename to generate a random chromosome and convert it to a wav file:
 	```bat
 	python chromosome_processor.py output.wav
 	```
