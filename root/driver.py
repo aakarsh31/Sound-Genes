@@ -2,7 +2,7 @@ import json
 from audio_features import AudioFeatures
 import sys
 import math
-import csv
+import os
 import pandas as pd
 from decimal import Decimal, localcontext
 import time
@@ -22,7 +22,9 @@ def addWeights(fitnessValues, weights):
 
     return fitnessValues
 
-def computeFitnessValues(rasaNumber, audioFile="aaramb.wav"):
+def computeFitnessValues(rasaNumber, generation, populationNumber, audioFile="aaramb.wav"):
+
+    output_folder = "features_output"
 
     startTime = time.time()
     directory = ""
@@ -85,14 +87,28 @@ def computeFitnessValues(rasaNumber, audioFile="aaramb.wav"):
             fitnessValues[rasas[i]] = rasaValues
 
     results["fitnessValues"] = fitnessValues
-    print("The Fitness Function Execution Time is :", (time.time()-startTime), "s")
+    # print("The Fitness Function Execution Time is :", (time.time()-startTime), "s")
 
     # Save the results to a JSON file
-    output_filename = f"{audioFile.replace('.wav', '')}_10_features.json"
+    output_filename = f"{output_folder}/{audioFile.replace('.wav', '')}_10_features.json"
     with open(output_filename, 'w') as json_file:
         json.dump(results, json_file, indent=4, default=str)
+
+    try:
+        
+        os.remove(f'./jAudio/gen{generation}-{populationNumber}FV.xml')
+        os.remove(f'./jAudio/gen{generation}-{populationNumber}FK.xml')
+        # print(f'Files "{file_path}" successfully deleted.')
+    except OSError as e:
+        print(
+           f'''
+            Failed to delete the xml files: jAudio/gen{generation}-{populationNumber}FV.xml and jAudio/gen{generation}-{populationNumber}FK.xml
+            error: {e}
+            current path: {os.getcwd()}
+            '''
+            )
     
-    print(f"Results saved to {output_filename}")
+    # print(f"Results saved to {output_filename}")
     
     return results
 
@@ -104,4 +120,4 @@ if __name__ == "__main__":
     if num_arguments > 1:
         audioFile = sys.argv[1]
 
-    results = computeFitnessValues(rasaNumber=1, audioFile=audioFile)
+    results = computeFitnessValues(rasaNumber=1, audioFile=audioFile, generation=0, populationNumber=0)

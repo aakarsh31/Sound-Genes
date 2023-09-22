@@ -4,6 +4,8 @@ import subprocess
 import os
 
 def extract_features(settings="final_settings.xml", directory="", filename="aaramb.wav", output_filename=None):
+
+    output_folder = "features_output"
     # If no output filename is provided, use the original filename without .wav extension
     if output_filename is None:
         output_filename = filename.replace(".wav", "")
@@ -20,7 +22,7 @@ def extract_features(settings="final_settings.xml", directory="", filename="aara
         '-s',
         settings,  # jAudio settings file
         output_filename,  # Features Output FileName
-        "../test_data/" + audio_filepath  # Audio Filename
+        "../audio_output/" + audio_filepath  # Audio Filename
     ]
     
     try:
@@ -29,12 +31,13 @@ def extract_features(settings="final_settings.xml", directory="", filename="aara
     except subprocess.CalledProcessError as e:
         print("Error executing Java command:", e)
     else:
-        print("Java command executed successfully")
+        pass
+        # print("Java command executed successfully")
 
         # Load XML file
         current_path = os.getcwd()
         xml_file = os.path.join(current_path, 'jAudio', f'{output_filename}FV.xml')
-        print("Current path:", current_path)
+        # print("Current path:", current_path)
         tree = ET.parse(xml_file)
         root = tree.getroot()
 
@@ -52,10 +55,10 @@ def extract_features(settings="final_settings.xml", directory="", filename="aara
                 data[feature_name] = values
 
         # Store the extracted data in a JSON file
-        json_file = f'{output_filename}_all_features.json'
+        json_file = f'{output_folder}/{output_filename}_all_features.json'
         with open(json_file, 'w') as f:
             json.dump(data, f, indent=4)
-        print(f"Data extracted and saved to {json_file}")
+        # print(f"Data extracted and saved to {json_file}")
 
         return data
     return None

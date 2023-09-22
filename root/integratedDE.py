@@ -10,6 +10,8 @@ from chromosome_processor import decode
 
 from driver import computeFitnessValues
 
+import os
+
 A=10
 # Amplitude
 # This is the maximum amplitude or loudness
@@ -33,13 +35,17 @@ Ps= 5
 Gs= 5
 # Generation Size
 
-Cl= 100
+Cl= 10
 # Chromosome Length
 # This is the number of Time Frames in a single song
 
 Gl= 50
 # Gene Length
 # This is the number of frequency Bins in a single Time Frame
+
+Wpb= 1
+# Waves per bin
+# This is the number of waves in a single Bin
 
 Pc= 2
 # Number of processes
@@ -71,14 +77,14 @@ def ff(L):
     return E
 
 # The original fitness function (integrated)
-def fitnessFunction(chromosome, index, rasaNumber=1):
+def fitnessFunction(chromosome, index, generation, rasaNumber=1):
 
     rasas = ['Karuna', 'Shanta', 'Shringar', 'Veera']
     chromosome_copy = deepcopy(chromosome)
 
-    decode(chromosome_copy, f"test_data/{index}.wav")
+    decode(chromosome_copy, index=index, waves_per_bin=Wpb, generation = generation)
 
-    values = dict(computeFitnessValues(rasaNumber=rasaNumber, audioFile=f"{index}.wav"))
+    values = dict(computeFitnessValues(rasaNumber=rasaNumber, audioFile=f"gen{generation}-{index}.wav", generation=generation, populationNumber=index))
     fitnessValue = float(values["fitnessValues"][rasas[rasaNumber-1]]["weightedSum"])
 
     return fitnessValue
@@ -104,7 +110,7 @@ def popinit():
 
     for i in range(Ps):
         Pop[i]=chrm()
-        Fitness.append(fitnessFunction(Pop[i], i))
+        Fitness.append(fitnessFunction(Pop[i], index=i, generation=0, rasaNumber=1))
         
     # Every element in Pop is a Chromosome indexed from an integer from 0 to Ps
 
@@ -139,9 +145,10 @@ def fittest():
 
 
 def poprun(Inp):
+    Gc = Inp[5]
+    # Generation Number
 
-
-
+    
     i=Inp[0]
     # 1) This is the index of the chromosome this call must work on
     Pop= Inp[1]
@@ -244,8 +251,10 @@ def poprun(Inp):
 
     # If a component of the Trial Vector is Violating a constraint, replace that 
         # component with that of the population member
+    
+    # print(Gc)
 
-    Temp=fitnessFunction(Tri, "trial")
+    Temp=fitnessFunction(Tri, index=i, generation=Gc)
     # Temp is used here to reduce the number of fitness function calls
 
     if(Temp<Fiti):
@@ -293,6 +302,7 @@ def main():
         # replicates this
 
 
+
     for i in range(Cl):
         Test.append([])
         
@@ -303,15 +313,13 @@ def main():
     popinit()
     # Initiate and store the Population Dictionary
 
-    Gc=0
+    Gc=1
     # Generation Counter
     # Counts down the generations
 
-    Gc=Gs
-
     Best=[fittest()]
     # Used in the next line of code
-    Inp1=[[i, Pop, Test, Best, Fitness] for i in range(0, Ps)]
+    
     # print(f"Pop: {Pop}")
     # print(f"Test: {Test}")
     # print(f"Best: {Best}")
@@ -320,9 +328,9 @@ def main():
     # This input is repeatedly used to send to the parallely processed function
     # The inner components will be explained further in the function itself
 
-    while Gc>0:
-        print(f"Gc: {Gc}/{Gs}")
-        Gc=Gc-1
+    while Gc<=Gs:
+        Inp1=[[i, Pop, Test, Best, Fitness, Gc] for i in range(0, Ps)]
+        Gc+=1
     # Run the while loop Gs times
     # This imitates Gs Generations of Evolution
 
@@ -375,5 +383,16 @@ def main():
     plt.show()
 
 if __name__ == '__main__':
+
+    audioOutputPath = 'audio_output'
+    featuresOutputPath = 'features_output'
+    if not os.path.exists(audioOutputPath):
+        os.makedirs(audioOutputPath)
+    else:
+        pass
+    if not os.path.exists(featuresOutputPath):
+        os.makedirs(featuresOutputPath)
+    else:
+        pass
 
     main()

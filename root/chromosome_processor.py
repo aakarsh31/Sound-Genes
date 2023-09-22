@@ -7,9 +7,11 @@ import sys
 from tqdm import tqdm
 
 # Function to decode the chromosome into audio and save it to a wave file
-def decode(chromosome, filename):
+def decode(chromosome, index, generation, waves_per_bin=20):
+
+    filename = f"audio_output/gen{generation}-{index}.wav"
     # Enlarge the chromosome to add more waves to each bin
-    enlargedChromosome = enlarge_chromosome(chromosome, waves_per_bin=20, min_frequency=20.0, max_frequency=20020.0)
+    enlargedChromosome = enlarge_chromosome(chromosome, waves_per_bin=waves_per_bin, min_frequency=20.0, max_frequency=20020.0)
 
     # Record the start time for execution
     start = time.time()
@@ -17,7 +19,6 @@ def decode(chromosome, filename):
     # Constants related to audio frames and bins
     frame_duration = 0.2  # seconds
     frames_per_sec = 44100
-    waves_per_bin = 20
 
     num_frames = len(enlargedChromosome)
     num_samples = int(frames_per_sec * frame_duration * num_frames)
@@ -26,7 +27,7 @@ def decode(chromosome, filename):
     waveform = np.zeros(num_samples, dtype=np.int16)
 
     # tqdm is a component from the tqdm library that helps us see the progress bar
-    with tqdm(total=len(enlargedChromosome), desc="Converting each frame to audio") as pbar:
+    with tqdm(total=len(enlargedChromosome), desc=f"Gen: {generation}, Index: {index} Converting each frame to audio") as pbar:
         for frame_idx, frame in enumerate(enlargedChromosome):
             pbar.update(1)
             for bin_idx, bin in enumerate(frame):
@@ -40,14 +41,14 @@ def decode(chromosome, filename):
                     waveform[segment_start:segment_end] += bin_samples
 
     # Print information about the waveform and chromosome
-    print(waveform.shape)
-    print(np.array(enlargedChromosome).shape)
+    # print(waveform.shape)
+    # print(np.array(enlargedChromosome).shape)
 
     # Write the waveform to a wave file
     write_wave(filename, waveform)
-    print("Decoding completed!")
-    print(f"Output Audio Filename: {filename}")
-    print("The Decoding Execution Time is:", (time.time() - start), "s")
+    # print("Decoding completed!")
+    # print(f"Output Audio Filename: {filename}")
+    # print("The Decoding Execution Time is:", (time.time() - start), "s")
 
 def generate_bin_samples(amplitude, phase, frequency, duration, frames_per_sec, waves_per_bin):
     # This line creates a time array t that starts from 0 and goes up to the specified duration.
