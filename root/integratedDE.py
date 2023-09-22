@@ -24,7 +24,7 @@ Cp=0.8
 K=0.8
 # Coefficient used to generate the mutant vector
 
-Fr=[2]
+Fr=[0.5]
 # Coefficient used to generate the mutant vector
 
 # Comment by Arya added 07092023. It may be advisable to reduce K to 0.5 and range of Fr to 1 instead of 2. 
@@ -39,11 +39,11 @@ Cl= 300
 # Chromosome Length
 # This is the number of Time Frames in a single song
 
-Gl= 1
+Gl= 50
 # Gene Length
 # This is the number of frequency Bins in a single Time Frame
 
-Wpb= 1
+Wpb= 20
 # Waves per bin
 # This is the number of waves in a single Bin
 
@@ -84,6 +84,18 @@ def ff(L):
 
 # The original fitness function (integrated)
 def fitnessFunction(chromosome, index, generation, rasaNumber=1):
+    """
+    Calculate fitness value for a given chromosome.
+    
+    Args:
+        chromosome (list): The chromosome to calculate fitness for.
+        index (int): Population number of the chromosome.
+        generation (int): Generation number.
+        rasaNumber (int, optional): The rasa number to consider (default is 1 which represents Karuna).
+
+    Returns:
+        float: The fitness value.
+    """
 
     rasas = ['Karuna', 'Shanta', 'Shringar', 'Veera']
     chromosome_copy = deepcopy(chromosome)
@@ -307,8 +319,6 @@ def main():
     # The goal of our algorithm then is to achieve the closest chromosome that
         # replicates this
 
-
-
     for i in range(Cl):
         Test.append([])
         
@@ -381,7 +391,6 @@ def main():
     print(Bfit[-1], End-Start)
     # Print the error between the Test chromosome and the Final chromosome
 
-    
 
     plt.plot(range(0,len(Bfit)), Bfit)
     plt.xlabel("Number of Generations")
@@ -389,6 +398,8 @@ def main():
     plt.show()
 
 if __name__ == '__main__':
+
+    # creating output directories if they do not exist
 
     audioOutputPath = 'audio_output'
     featuresOutputPath = 'features_output'

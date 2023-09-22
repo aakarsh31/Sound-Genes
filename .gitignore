@@ -8,3 +8,6 @@ x.py
 # ignore output directories
 features_output/
 audio_output/
+
+# ignore the temporary cache files
+__pycache__/

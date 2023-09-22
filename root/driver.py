@@ -22,7 +22,7 @@ def addWeights(fitnessValues, weights):
 
     return fitnessValues
 
-def computeFitnessValues(rasaNumber, generation, populationNumber, audioFile="aaramb.wav"):
+def computeFitnessValues(generation, populationNumber, audioFile="aaramb.wav", rasaNumber=1):
 
     output_folder = "features_output"
 
