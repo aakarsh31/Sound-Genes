@@ -35,11 +35,11 @@ Ps= 5
 Gs= 5
 # Generation Size
 
-Cl= 10
+Cl= 300
 # Chromosome Length
 # This is the number of Time Frames in a single song
 
-Gl= 50
+Gl= 1
 # Gene Length
 # This is the number of frequency Bins in a single Time Frame
 
@@ -50,6 +50,12 @@ Wpb= 1
 Pc= 2
 # Number of processes
 # This is the number of cores this code should parallely run on
+
+minFrequency = 20.0
+# minimum frequency per frame
+
+maxFrequency = 20020.0
+# maximum frequency per frame
 
 Ch= 100//Pc+1
 # Chunk size
@@ -82,7 +88,7 @@ def fitnessFunction(chromosome, index, generation, rasaNumber=1):
     rasas = ['Karuna', 'Shanta', 'Shringar', 'Veera']
     chromosome_copy = deepcopy(chromosome)
 
-    decode(chromosome_copy, index=index, waves_per_bin=Wpb, generation = generation)
+    decode(chromosome_copy, index=index, waves_per_bin=Wpb, generation = generation, minFrequency=minFrequency, maxFrequency=maxFrequency)
 
     values = dict(computeFitnessValues(rasaNumber=rasaNumber, audioFile=f"gen{generation}-{index}.wav", generation=generation, populationNumber=index))
     fitnessValue = float(values["fitnessValues"][rasas[rasaNumber-1]]["weightedSum"])
