@@ -1,10 +1,29 @@
 import numpy as np
+# NumPy is a powerful library for numerical operations in Python.
+# It provides support for arrays, matrices, and various mathematical functions.
+# In this code, it is used for handling numerical operations, especially in audio processing.
+
 import random
-import numpy as np
+# The 'random' library provides functions for generating random numbers.
+# It's used here for generating random values for the chromosome.
+
 import wave
+# The 'wave' module allows reading and writing WAV files, the audio file format that we're using.
+# It's used here to save the processed chromosome data to a .wav file.
+
 import time
+# The 'time' module provides various time-related functions.
+# It's used here to measure the execution time of certain parts of the code.
+
 import sys
+# The 'sys' module provides access to some variables used or maintained by the interpreter and functions that interact strongly with the interpreter.
+# It's used here for handling command-line arguments.
+
 from tqdm import tqdm
+# 'tqdm' stands for "taqaddum" which means "progress" in Arabic.
+# It's a fast, extensible progress bar for loops and iterables in Python.
+# It's used here to display a progress bar while converting each chromosome to audio.
+
 
 # Function to decode the chromosome into audio and save it to a wave file
 def decode(chromosome, index, generation, waves_per_bin=20, minFrequency=20.0, maxFrequency=20020.0):

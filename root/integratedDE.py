@@ -7,10 +7,13 @@ from copy import deepcopy
 from matplotlib import pyplot as plt
 
 from chromosome_processor import decode
+# This is the function that converts chromosomes to wav files.
 
 from driver import computeFitnessValues
+# This is the fitness function that utilizes 5 features from set A and another 5 from set B
 
 import os
+# This library is used to create/check folders/directories
 
 A=10
 # Amplitude
