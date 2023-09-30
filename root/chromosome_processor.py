@@ -26,11 +26,11 @@ from tqdm import tqdm
 
 
 # Function to decode the chromosome into audio and save it to a wave file
-def decode(chromosome, index, generation, waves_per_bin=20, minFrequency=20.0, maxFrequency=20020.0):
+def decode(chromosome, index, generation, bins_per_frame = 50, waves_per_bin=20, minFrequency=20.0, maxFrequency=20020.0):
 
     filename = f"audio_output/gen{generation}-{index}.wav"
     # Enlarge the chromosome to add more waves to each bin
-    enlargedChromosome = enlarge_chromosome(chromosome, waves_per_bin=waves_per_bin, minFrequency=minFrequency, maxFrequency=maxFrequency)
+    enlargedChromosome = enlarge_chromosome(chromosome, bins_per_frame=bins_per_frame, waves_per_bin=waves_per_bin, minFrequency=minFrequency, maxFrequency=maxFrequency)
 
     # Record the start time for execution
     start = time.time()
@@ -122,11 +122,11 @@ def generate_chromosome(Cl=300, Gl=50, A=1.0):
 
 # Function to enlarge the chromosome by adding more waves to each bin
 # This version is compatible with the DE (Differential Evolution) code
-def enlarge_chromosome(chromosome, waves_per_bin=20, minFrequency=20.0, maxFrequency=20020.0):
+def enlarge_chromosome(chromosome, bins_per_frame=50, waves_per_bin=20, minFrequency=20.0, maxFrequency=20020.0):
     # Enlarge the chromosome by adding more waves to each bin
     frequency_Range = maxFrequency - minFrequency
     current_frequency = minFrequency
-    frequency_difference = frequency_Range / 1000
+    frequency_difference = frequency_Range / (bins_per_frame*waves_per_bin)
 
     for frame in chromosome:
         current_frequency = minFrequency

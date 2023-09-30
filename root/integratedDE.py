@@ -5,6 +5,7 @@ from copy import deepcopy
 # This is a crucial library used to create perfect copies of chromosomes
 
 from matplotlib import pyplot as plt
+# This is used for plotting purposes
 
 from chromosome_processor import decode
 # This is the function that converts chromosomes to wav files.
@@ -14,6 +15,7 @@ from driver import computeFitnessValues
 
 import os
 # This library is used to create/check folders/directories
+
 
 A=10
 # Amplitude
@@ -54,36 +56,16 @@ Pc= 2
 # Number of processes
 # This is the number of cores this code should parallely run on
 
+Ch= 100//Pc+1
+# Chunk size
+# This is the number of elements each parallel run should process before returning
+
 minFrequency = 20.0
 # minimum frequency per frame
 
 maxFrequency = 20020.0
 # maximum frequency per frame
 
-Ch= 100//Pc+1
-# Chunk size
-# This is the number of elements each parallel run should process before returning
-
-def ff(L):
-# Fitness Function
-# This must be minimised in the given situation
-
-    for i in range(0, 1):
-    # The fitness function is being revaluated here
-                
-        E=0
-        # Error
-        # This will be used to evaluate the fitness of a chromosome
-
-        for j in range(Cl):
-            for k in range(Gl):
-                for l in range(2):
-                    E= E + abs(L[j][k][l]-Test[j][k][l])
-
-    # The error is the manhattan distance of a chromosome from chromosome Test
-    # Hence the algorithm must minimise this error
-
-    return E
 
 # The original fitness function (integrated)
 def fitnessFunction(chromosome, index, generation, rasaNumber=1):
@@ -103,7 +85,7 @@ def fitnessFunction(chromosome, index, generation, rasaNumber=1):
     rasas = ['Karuna', 'Shanta', 'Shringar', 'Veera']
     chromosome_copy = deepcopy(chromosome)
 
-    decode(chromosome_copy, index=index, waves_per_bin=Wpb, generation = generation, minFrequency=minFrequency, maxFrequency=maxFrequency)
+    decode(chromosome_copy, index=index,bins_per_frame=Gl, waves_per_bin=Wpb, generation = generation, minFrequency=minFrequency, maxFrequency=maxFrequency)
 
     values = dict(computeFitnessValues(rasaNumber=rasaNumber, audioFile=f"gen{generation}-{index}.wav", generation=generation, populationNumber=index))
     fitnessValue = float(values["fitnessValues"][rasas[rasaNumber-1]]["weightedSum"])
@@ -135,7 +117,6 @@ def popinit():
         
     # Every element in Pop is a Chromosome indexed from an integer from 0 to Ps
 
-    # print(f"Pop: {Pop}")
     return Pop
 
 
@@ -166,29 +147,23 @@ def fittest():
 
 
 def poprun(Inp):
-    Gc = Inp[5]
-    # Generation Number
-
     
     i=Inp[0]
     # 1) This is the index of the chromosome this call must work on
     Pop= Inp[1]
     # 2) This is the population dictionary that contains all chromosomes
-    global Test
-    Test=Inp[2]
-    # 3) This is the Test chromosome
-       # It has been sent here so that the fitness function can be called directly 
-    X=Inp[3][0][0]
-    # 4) This is the fittest chromosome from the previous generation
+    X=Inp[2][0][0]
+    # 3) This is the fittest chromosome from the previous generation
        # It is used for Global search (Minimal additional cost)
-    Fiti=Inp[4][i]
-    # 5) This is the fitness of the current chromosome
+    Fiti=Inp[3][i]
+    # 4) This is the fitness of the current chromosome
        # It is not evaluated natively to reduce number of fitness function evaluations
-
+    Gc = Inp[4][0]
+    # 5) Generation Number
+        # This is used in the fitness function
 
     for z in range(0,10):
-        # print(f"z: {z}")
-    # Maximum number of times the chromosome should be revaluated if it is out of bounds
+    # z is the maximum number of times the chromosome should be revaluated if it is out of bounds
 
         Mut=deepcopy(Pop[i])
         # Mutant Vector
@@ -272,8 +247,6 @@ def poprun(Inp):
 
     # If a component of the Trial Vector is Violating a constraint, replace that 
         # component with that of the population member
-    
-    # print(Gc)
 
     Temp=fitnessFunction(Tri, index=i, generation=Gc)
     # Temp is used here to reduce the number of fitness function calls
@@ -315,45 +288,31 @@ def main():
     # This is a list of the best fitness in every generation for plotting purposes
     # Will be eliminated from the final code
 
-    global Test
-    Test=[]
-    # Test Chromosome
-    # Let us assume that this chromosome is the perfect song
-    # The goal of our algorithm then is to achieve the closest chromosome that
-        # replicates this
 
-    for i in range(Cl):
-        Test.append([])
-        
-        for j in range(Gl):
-            Test[i].append([rd.uniform(0,A), rd.uniform(0,360)])
-
-    # Initiation of Test Chromosome
     popinit()
     # Initiate and store the Population Dictionary
 
     Gc=1
     # Generation Counter
-    # Counts down the generations
+    # Counts up the generations
 
     Best=[fittest()]
-    # Used in the next line of code
+    # Used in Input 1  
     
-    # print(f"Pop: {Pop}")
-    # print(f"Test: {Test}")
-    # print(f"Best: {Best}")
-    # print(f"Fitness: {Fitness}")
+    Gcl=[Gc]
+    # A list containing Gc used for Input 1
+
+    Inp1=[[i, Pop, Best, Fitness, Gcl] for i in range(0, Ps)]
     # Input 1
     # This input is repeatedly used to send to the parallely processed function
     # The inner components will be explained further in the function itself
 
     while Gc<=Gs:
-        Inp1=[[i, Pop, Test, Best, Fitness, Gc] for i in range(0, Ps)]
         Gc+=1
     # Run the while loop Gs times
     # This imitates Gs Generations of Evolution
 
-        # Fr[0]=Fr[0]/1.01x``
+        # Fr[0]=Fr[0]/1.01
         # The above line of code can be used to change the value of F progressively
 
         with Pool(processes= Pc) as pool:
@@ -384,6 +343,8 @@ def main():
                 # else do nothing
     
         Best[0]=fittest()
+        Gcl[0]=Gc
+
         Bfit.append(Best[0][1])
         # Append the highest fitness population member of each generation for
             # plotting purposes
