@@ -40,7 +40,7 @@ Ps= 5
 Gs= 5
 # Generation Size
 
-Cl= 300
+Cl= 20
 # Chromosome Length
 # This is the number of Time Frames in a single song
 
