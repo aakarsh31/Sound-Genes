@@ -101,6 +101,8 @@ def computeFitnessValues(generation, populationNumber, audioFile="aaramb.wav", r
 
         if populationNumber % 25 != 0 or populationNumber != 119:
             os.remove(f'./audio_output/{audioFile}')
+            os.remove(output_filename)
+            os.remove(output_filename.replace("_10_", '_all_'))
         # print(f'Files "{file_path}" successfully deleted.')
     except OSError as e:
         print(
