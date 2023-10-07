@@ -34,17 +34,19 @@ Fr=[0.5]
 
 # Comment by Arya added 07092023. It may be advisable to reduce K to 0.5 and range of Fr to 1 instead of 2. 
 
-Ps= 5
+Ps= 120
 # Population Size
 
-Gs= 5
+Gs= 300
 # Generation Size
 
-Cl= 20
+Cl= 300
+# Frames per audio sample
 # Chromosome Length
 # This is the number of Time Frames in a single song
 
 Gl= 50
+# Bins per frame
 # Gene Length
 # This is the number of frequency Bins in a single Time Frame
 
@@ -60,7 +62,7 @@ Ch= 100//Pc+1
 # Chunk size
 # This is the number of elements each parallel run should process before returning
 
-minFrequency = 20.0
+minFrequency = 19980
 # minimum frequency per frame
 
 maxFrequency = 20020.0
