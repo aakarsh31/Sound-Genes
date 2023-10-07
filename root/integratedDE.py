@@ -58,19 +58,19 @@ Pc= 2
 # Number of processes
 # This is the number of cores this code should parallely run on
 
-Ch= 100//Pc+1
+Ch= 1
 # Chunk size
 # This is the number of elements each parallel run should process before returning
 
-minFrequency = 19980
+minFrequency = 200
 # minimum frequency per frame
 
-maxFrequency = 20020.0
+maxFrequency = 17000
 # maximum frequency per frame
 
 
 # The original fitness function (integrated)
-def fitnessFunction(chromosome, index, generation, rasaNumber=1):
+def fitnessFunction(Inp):
     """
     Calculate fitness value for a given chromosome.
     
@@ -83,6 +83,11 @@ def fitnessFunction(chromosome, index, generation, rasaNumber=1):
     Returns:
         float: The fitness value.
     """
+
+    chromosome=Inp[0]
+    index=Inp[1]
+    generation=Inp[2]
+    rasaNumber=1
 
     rasas = ['Karuna', 'Shanta', 'Shringar', 'Veera']
     chromosome_copy = deepcopy(chromosome)
@@ -113,10 +118,20 @@ def popinit():
 # Population Initiator
 # Creates an initial population pool
 
+    from multiprocessing import Pool
+
     for i in range(Ps):
         Pop[i]=chrm()
-        Fitness.append(fitnessFunction(Pop[i], index=i, generation=0, rasaNumber=1))
         
+    Inp=[[Pop[i], i, 0] for i in range(0, Ps)]
+
+    with Pool(processes= Pc) as pool:
+
+        result = pool.map_async(fitnessFunction, Inp, chunksize= Ch)
+
+        for Out in result.get():
+            Fitness.append(Out)
+
     # Every element in Pop is a Chromosome indexed from an integer from 0 to Ps
 
     return Pop
@@ -250,7 +265,7 @@ def poprun(Inp):
     # If a component of the Trial Vector is Violating a constraint, replace that 
         # component with that of the population member
 
-    Temp=fitnessFunction(Tri, index=i, generation=Gc)
+    Temp=fitnessFunction([Tri, i, Gc])
     # Temp is used here to reduce the number of fitness function calls
 
     if(Temp<Fiti):
@@ -352,16 +367,16 @@ def main():
             # plotting purposes
         # Will be eliminated from the final code
 
+        if(Gc%25==0):
+            plt.plot(range(0,len(Bfit)), Bfit)
+            plt.xlabel("Number of Generations")
+            plt.ylabel("Fitness")
+            plt.savefig('Graphs/Graph-{Ps}-{Gs}-v1.0')
+
     End= time.time()
 
     print(Bfit[-1], End-Start)
     # Print the error between the Test chromosome and the Final chromosome
-
-
-    plt.plot(range(0,len(Bfit)), Bfit)
-    plt.xlabel("Number of Generations")
-    plt.ylabel("Fitness")
-    plt.show()
 
 if __name__ == '__main__':
 
