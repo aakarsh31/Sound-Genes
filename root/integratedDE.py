@@ -371,7 +371,7 @@ def main():
             plt.plot(range(0,len(Bfit)), Bfit)
             plt.xlabel("Number of Generations")
             plt.ylabel("Fitness")
-            plt.savefig('Graphs/Graph-{Ps}-{Gs}-v1.0')
+            plt.savefig('Graphs/Graph-{Ps}-{Gs}-v1_0.png')
 
     End= time.time()
 
