@@ -34,18 +34,18 @@ Fr=[0.5]
 
 # Comment by Arya added 07092023. It may be advisable to reduce K to 0.5 and range of Fr to 1 instead of 2. 
 
-Ps= 120
+Ps= 5
 # Population Size
 
-Gs= 300
+Gs= 50
 # Generation Size
 
-Cl= 300
+Cl= 3
 # Frames per audio sample
 # Chromosome Length
 # This is the number of Time Frames in a single song
 
-Gl= 50
+Gl= 2
 # Bins per frame
 # Gene Length
 # This is the number of frequency Bins in a single Time Frame
@@ -54,7 +54,7 @@ Wpb= 20
 # Waves per bin
 # This is the number of waves in a single Bin
 
-Pc= 1
+Pc= 5
 # Number of processes
 # This is the number of cores this code should parallely run on
 
