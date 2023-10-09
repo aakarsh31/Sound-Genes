@@ -4,6 +4,8 @@ import random as rd
 from copy import deepcopy
 # This is a crucial library used to create perfect copies of chromosomes
 
+import matplotlib
+matplotlib.use('Agg')
 from matplotlib import pyplot as plt
 # This is used for plotting purposes
 
@@ -34,10 +36,10 @@ Fr=[0.5]
 
 # Comment by Arya added 07092023. It may be advisable to reduce K to 0.5 and range of Fr to 1 instead of 2. 
 
-Ps= 120
+Ps= 5
 # Population Size
 
-Gs= 300
+Gs= 5
 # Generation Size
 
 Cl= 300
@@ -54,7 +56,7 @@ Wpb= 20
 # Waves per bin
 # This is the number of waves in a single Bin
 
-Pc= 1
+Pc= 5
 # Number of processes
 # This is the number of cores this code should parallely run on
 
@@ -98,6 +100,30 @@ def fitnessFunction(Inp):
     fitnessValue = float(values["fitnessValues"][rasas[rasaNumber-1]]["weightedSum"])
 
     return fitnessValue
+
+def Q():
+    
+    sum=0
+
+    for i in range(Ps):
+        for j in range(Cl):
+            for k in range(Gl-1):
+
+                sum+= abs(Pop[i][j][k][0]-Pop[i][j][k+1][0])
+
+    return 100*float(sum)/(A/2*Cl*Gl*Ps)
+
+def P():
+    
+    sum=0
+
+    for i in range(Ps):
+        for j in range(Cl):
+            for k in range(Gl-1):
+
+                sum+= abs(Pop[i][j][k][1]-Pop[i][j][k+1][1])
+
+    return 100*float(sum)/(180*Cl*Gl*Ps)
 
 def chrm():
 # Random Chromosome Generator
@@ -305,6 +331,21 @@ def main():
     # This is a list of the best fitness in every generation for plotting purposes
     # Will be eliminated from the final code
 
+    Afit=[]
+    # Average Fitness List
+    # This is a list of the average fitness in every generation for plotting purposes
+    # Will be eliminated from the final code
+
+    Qval=[]
+    # Q Values List
+    # This is a list of the Q values in every generation for plotting purposes
+    # Will be eliminated from the final code
+
+    Pval=[]
+    # P Values List
+    # This is a list of the P values in every generation for plotting purposes
+    # Will be eliminated from the final code
+
 
     popinit()
     # Initiate and store the Population Dictionary
@@ -362,16 +403,21 @@ def main():
         Best[0]=fittest()
         Gcl[0]=Gc
 
+        Afit.append(sum(Fitness)/float(Ps))
         Bfit.append(Best[0][1])
-        # Append the highest fitness population member of each generation for
-            # plotting purposes
-        # Will be eliminated from the final code
+        Qval.append(Q())
+        Pval.append(P())
 
-        if(Gc%25==0):
-            plt.plot(range(0,len(Bfit)), Bfit)
+        if(Gc%2==0):
+            plt.plot(range(0,len(Afit)), Afit, label="Avg Fitness")
+            plt.plot(range(0,len(Bfit)), Bfit, label="Best Fitness")
+            plt.plot(range(0,len(Qval)), Qval, label="Q value")
+            plt.plot(range(0,len(Pval)), Pval, label="P value")
             plt.xlabel("Number of Generations")
             plt.ylabel("Fitness")
-            plt.savefig(f"Graphs/Graph-Ps={Ps}-Gs={Gs}-v1_0.png")
+            plt.legend(loc="upper right")
+            plt.savefig(f"Graphs/Graph-Ps={Ps}-Gs={Gs}-v1_01.png")
+            plt.close()
 
     End= time.time()
 
