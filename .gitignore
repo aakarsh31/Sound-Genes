@@ -11,3 +11,6 @@ audio_output/
 
 # ignore the temporary cache files
 __pycache__/
+
+# ignore other temporary files
+*~
