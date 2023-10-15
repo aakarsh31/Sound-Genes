@@ -4,6 +4,8 @@ import random as rd
 from copy import deepcopy
 # This is a crucial library used to create perfect copies of chromosomes
 
+import matplotlib
+matplotlib.use('Agg')
 from matplotlib import pyplot as plt
 # This is used for plotting purposes
 
@@ -34,10 +36,10 @@ Fr=[0.5]
 
 # Comment by Arya added 07092023. It may be advisable to reduce K to 0.5 and range of Fr to 1 instead of 2. 
 
-Ps= 120
+Ps= 5
 # Population Size
 
-Gs= 300
+Gs= 5
 # Generation Size
 
 Cl= 300
@@ -54,23 +56,23 @@ Wpb= 20
 # Waves per bin
 # This is the number of waves in a single Bin
 
-Pc= 2
+Pc= 5
 # Number of processes
 # This is the number of cores this code should parallely run on
 
-Ch= 100//Pc+1
+Ch= 1
 # Chunk size
 # This is the number of elements each parallel run should process before returning
 
-minFrequency = 19980
+minFrequency = 200
 # minimum frequency per frame
 
-maxFrequency = 20020.0
+maxFrequency = 17000
 # maximum frequency per frame
 
 
 # The original fitness function (integrated)
-def fitnessFunction(chromosome, index, generation, rasaNumber=1):
+def fitnessFunction(Inp):
     """
     Calculate fitness value for a given chromosome.
     
@@ -84,6 +86,11 @@ def fitnessFunction(chromosome, index, generation, rasaNumber=1):
         float: The fitness value.
     """
 
+    chromosome=Inp[0]
+    index=Inp[1]
+    generation=Inp[2]
+    rasaNumber=1
+
     rasas = ['Karuna', 'Shanta', 'Shringar', 'Veera']
     chromosome_copy = deepcopy(chromosome)
 
@@ -93,6 +100,30 @@ def fitnessFunction(chromosome, index, generation, rasaNumber=1):
     fitnessValue = float(values["fitnessValues"][rasas[rasaNumber-1]]["weightedSum"])
 
     return fitnessValue
+
+def Q():
+    
+    sum=0
+
+    for i in range(Ps):
+        for j in range(Cl):
+            for k in range(Gl-1):
+
+                sum+= abs(Pop[i][j][k][0]-Pop[i][j][k+1][0])
+
+    return 100*float(sum)/(A/2*Cl*Gl*Ps)
+
+def P():
+    
+    sum=0
+
+    for i in range(Ps):
+        for j in range(Cl):
+            for k in range(Gl-1):
+
+                sum+= abs(Pop[i][j][k][1]-Pop[i][j][k+1][1])
+
+    return 100*float(sum)/(180*Cl*Gl*Ps)
 
 def chrm():
 # Random Chromosome Generator
@@ -113,10 +144,20 @@ def popinit():
 # Population Initiator
 # Creates an initial population pool
 
+    from multiprocessing import Pool
+
     for i in range(Ps):
         Pop[i]=chrm()
-        Fitness.append(fitnessFunction(Pop[i], index=i, generation=0, rasaNumber=1))
         
+    Inp=[[Pop[i], i, 0] for i in range(0, Ps)]
+
+    with Pool(processes= Pc) as pool:
+
+        result = pool.map_async(fitnessFunction, Inp, chunksize= Ch)
+
+        for Out in result.get():
+            Fitness.append(Out)
+
     # Every element in Pop is a Chromosome indexed from an integer from 0 to Ps
 
     return Pop
@@ -250,7 +291,7 @@ def poprun(Inp):
     # If a component of the Trial Vector is Violating a constraint, replace that 
         # component with that of the population member
 
-    Temp=fitnessFunction(Tri, index=i, generation=Gc)
+    Temp=fitnessFunction([Tri, i, Gc])
     # Temp is used here to reduce the number of fitness function calls
 
     if(Temp<Fiti):
@@ -288,6 +329,21 @@ def main():
     Bfit=[]
     # Best Fitness List
     # This is a list of the best fitness in every generation for plotting purposes
+    # Will be eliminated from the final code
+
+    Afit=[]
+    # Average Fitness List
+    # This is a list of the average fitness in every generation for plotting purposes
+    # Will be eliminated from the final code
+
+    Qval=[]
+    # Q Values List
+    # This is a list of the Q values in every generation for plotting purposes
+    # Will be eliminated from the final code
+
+    Pval=[]
+    # P Values List
+    # This is a list of the P values in every generation for plotting purposes
     # Will be eliminated from the final code
 
 
@@ -347,21 +403,26 @@ def main():
         Best[0]=fittest()
         Gcl[0]=Gc
 
+        Afit.append(sum(Fitness)/float(Ps))
         Bfit.append(Best[0][1])
-        # Append the highest fitness population member of each generation for
-            # plotting purposes
-        # Will be eliminated from the final code
+        Qval.append(Q())
+        Pval.append(P())
+
+        if(Gc%2==0):
+            plt.plot(range(0,len(Afit)), Afit, label="Avg Fitness")
+            plt.plot(range(0,len(Bfit)), Bfit, label="Best Fitness")
+            plt.plot(range(0,len(Qval)), Qval, label="Q value")
+            plt.plot(range(0,len(Pval)), Pval, label="P value")
+            plt.xlabel("Number of Generations")
+            plt.ylabel("Fitness")
+            plt.legend(loc="upper right")
+            plt.savefig(f"Graphs/Graph-Ps={Ps}-Gs={Gs}-v1_01.png")
+            plt.close()
 
     End= time.time()
 
     print(Bfit[-1], End-Start)
     # Print the error between the Test chromosome and the Final chromosome
-
-
-    plt.plot(range(0,len(Bfit)), Bfit)
-    plt.xlabel("Number of Generations")
-    plt.ylabel("Fitness")
-    plt.show()
 
 if __name__ == '__main__':
 
