@@ -125,5 +125,7 @@ if __name__ == "__main__":
     audioFile = "aaramb.wav"
     if num_arguments > 1:
         audioFile = sys.argv[1]
+    if audioFile[-4:] != ".wav":
+        audioFile+=".wav"
 
-    results = computeFitnessValues(rasaNumber=1, audioFile=audioFile, generation=0, populationNumber=0)
+    results = computeFitnessValues(rasaNumber=5, audioFile=audioFile, generation=0, populationNumber=0)
