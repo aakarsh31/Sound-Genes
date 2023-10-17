@@ -68,7 +68,7 @@ def decode(chromosome, index=0, generation=0, bins_per_frame = 50, waves_per_bin
 
 def generateFrameSamples(binParameters):
     # Generate time values for each part
-    t = np.linspace(0, frame_duration, int(sampleRate * frame_duration/2), endpoint=False)
+    t = np.linspace(0, frame_duration, int(sampleRate * frame_duration), endpoint=False)
 
     combined_wave = np.sum([A * np.sin(2 * np.pi * f * t + phi) for A, f, phi in binParameters], axis=0)
 
