@@ -430,12 +430,17 @@ if __name__ == '__main__':
 
     audioOutputPath = 'audio_output'
     featuresOutputPath = 'features_output'
+    graphsPath = 'graphs'
     if not os.path.exists(audioOutputPath):
         os.makedirs(audioOutputPath)
     else:
         pass
     if not os.path.exists(featuresOutputPath):
         os.makedirs(featuresOutputPath)
+    else:
+        pass
+    if not os.path.exists(graphsPath):
+        os.makedirs(graphsPath)
     else:
         pass
 
