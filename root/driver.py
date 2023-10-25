@@ -33,7 +33,7 @@ def computeFitnessValues(generation, populationNumber, audioFile="aaramb.wav", r
     audio_features = AudioFeatures(directory = directory, filename = audioFile)
 
     # final data needed for the gaussian function
-    gaussianData = pd.read_csv("gaussianData.csv") 
+    gaussianData = pd.read_csv("updatedGaussianData.csv") 
 
     rasas = ['Karuna', 'Shanta', 'Shringar', 'Veera']
 
@@ -99,11 +99,11 @@ def computeFitnessValues(generation, populationNumber, audioFile="aaramb.wav", r
         os.remove(f'./jAudio/gen{generation}-{populationNumber}FV.xml')
         os.remove(f'./jAudio/gen{generation}-{populationNumber}FK.xml')
 
-        if populationNumber % 25 != 0 or populationNumber != 119:
-            os.remove(f'./audio_output/{audioFile}')
-        if populationNumber % 10 != 0 or populationNumber != 119:
-            os.remove(output_filename)
-            os.remove(output_filename.replace("_10_", '_all_'))
+        # if populationNumber % 25 != 0 or populationNumber != 119:
+        #     os.remove(f'./audio_output/{audioFile}')
+        # if populationNumber % 10 != 0 or populationNumber != 119:
+        #     os.remove(output_filename)
+        #     os.remove(output_filename.replace("_10_", '_all_'))
         # print(f'Files "{file_path}" successfully deleted.')
     except OSError as e:
         print(
