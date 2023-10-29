@@ -36,10 +36,10 @@ Fr=[0.5]
 
 # Comment by Arya added 07092023. It may be advisable to reduce K to 0.5 and range of Fr to 1 instead of 2. 
 
-Ps= 5
+Ps= 120
 # Population Size
 
-Gs= 5
+Gs= 300
 # Generation Size
 
 Cl= 300
