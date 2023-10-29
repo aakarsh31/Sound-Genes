@@ -1,10 +1,9 @@
 from copy import deepcopy 
-import time 
-from tqdm import tqdm 
 import random 
 from driver import computeFitnessValues
 from chromosome_processor import decode
 import os
+import json
 
 Gl= 50
 # Bins per frame
@@ -24,7 +23,7 @@ maxFrequency = 17000
 
 
 # Function to generate a random chromosome based on specified parameters
-def generate_chromosome(Cl=300, Gl=50, A=10.0):
+def generate_chromosome(A, Cl=300, Gl=50):
 # Cl = Number of frames
 # Gl = Number of bins per frame
 # A = Amplitude Range
@@ -67,13 +66,13 @@ def fitnessFunction(Inp):
 
     decode(chromosome_copy, index=index,bins_per_frame=Gl, waves_per_bin=Wpb, generation = generation, minFrequency=minFrequency, maxFrequency=maxFrequency)
 
-    values = dict(computeFitnessValues(rasaNumber=rasaNumber, audioFile=f"gen{generation}-{index}.wav", generation=generation, populationNumber=index))
+    values = computeFitnessValues(rasaNumber=rasaNumber, audioFile=f"gen{generation}-{index}.wav", generation=generation, populationNumber=index)
     fitnessValues = {}
     for i in range(len(rasas)):
         fitnessValue = float(values["fitnessValues"][rasas[i]]["weightedSum"])
         fitnessValues[rasas[i]] = fitnessValue
 
-    return fitnessValues
+    return fitnessValues, values['featureValues']
 
 if __name__ == "__main__":
 
@@ -93,15 +92,19 @@ if __name__ == "__main__":
     else:
         pass
 
-    # x=generate_chromosome(A=1000)
-    # testInputAll=[x,0,0,5]
-    # allFF=fitnessFunction(testInputAll)
-    # print("1000 Amplitude: ", allFF)
-    x=generate_chromosome(A=10)
-    testInputAll=[x,0,0,5]
-    allFF=fitnessFunction(testInputAll)
-    print("10 Amplitude: ", allFF)
 
+    Amps = [0.1, 10, 100, 1000]
+
+    results = {}
+    for A in Amps:
+        x=generate_chromosome(A=A)
+        testInputAll=[x,0,0,5]
+        fitnessValues, featureValues=fitnessFunction(testInputAll)
+        results[A] = {"featureValues":featureValues, "fitnessValues":fitnessValues}
+        print(f"{A} Amplitude: \nFeature Values: {featureValues}\nFitness Values: {fitnessValues}\n")
+
+        with open("FFtesting.json", 'w') as json_file:
+                json.dump(results, json_file, indent=4, default=str)
 
 
 
