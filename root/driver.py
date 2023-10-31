@@ -9,7 +9,7 @@ import time
 
 # normal distribution function
 def g(x, mean, variance):
-    return math.exp(-((x - mean)**2) / (2 * variance))
+    return ((x - mean)**2) / (2 * variance)
 
 # to add weights to the fitness values
 def addWeights(fitnessValues, weights):
@@ -72,16 +72,16 @@ def computeFitnessValues(generation, populationNumber, audioFile="aaramb.wav", r
     for i in range(len(rasas)):
         if rasaNumber == i+1 or rasaNumber==5:
             rasaValues = {}
+            # print(results["featureValues"])
+            index = 1
             for feature, value in results["featureValues"].items():
-                index = int(feature[1])
                 mean = Decimal(gaussianData.iloc[index][f"{rasas[i]} Peak Point"])
                 variance = Decimal(gaussianData.iloc[index]["5*SigmaSq obtained in Col G"])
                 # calling the fitness function
-                fitnessValue = g(value, mean, variance)
-                if fitnessValue != 0:
-                    rasaValues[feature] = -1 * math.log(fitnessValue)
-                else:
-                    rasaValues[feature] = 0.0
+                rasaValues[feature] = g(value, mean, variance)
+
+                # print(feature, rasas[i], mean)
+                index+=1
 
             rasaValues = addWeights(rasaValues, weights)
             fitnessValues[rasas[i]] = rasaValues
