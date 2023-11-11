@@ -24,9 +24,6 @@ from tqdm import tqdm
 # It's a fast, extensible progress bar for loops and iterables in Python.
 # It's used here to display a progress bar while converting each chromosome to audio.
 
-# Constants related to audio frames and bins
-frame_duration = 0.2  # seconds
-sampleRate = 44100
 
 # Function to decode the chromosome into audio and save it to a wave file
 def decode(chromosome, index=0, generation=0, bins_per_frame = 50, waves_per_bin=20, minFrequency=20.0, maxFrequency=20020.0):
@@ -38,57 +35,45 @@ def decode(chromosome, index=0, generation=0, bins_per_frame = 50, waves_per_bin
     # Record the start time for execution
     start = time.time()
 
-    # num_frames = len(enlargedChromosome)
-    # num_samples = int(sampleRate * frame_duration * num_frames)
+    # Constants related to audio frames and bins
+    frame_duration = 0.2  # seconds
+    frames_per_sec = 44100
 
-    # # Initialize an array to hold the waveform samples
-    # waveform = np.zeros(num_samples, dtype=np.int16)
+    num_frames = len(enlargedChromosome)
+    num_samples = int(frames_per_sec * frame_duration * num_frames)
+
+    # Initialize an array to hold the waveform samples
+    waveform = np.zeros(num_samples, dtype=np.int16)
 
     # tqdm is a component from the tqdm library that helps us see the progress bar
     with tqdm(total=len(enlargedChromosome), desc=f"Gen: {generation}, Index: {index} Converting each frame to audio") as pbar:
-        frameSamples = []
         for frame_idx, frame in enumerate(enlargedChromosome):
             pbar.update(1)
-            binParameters = []
             for bin_idx, bin in enumerate(frame):
                 for i, wave in enumerate(bin):
                     amplitude = wave[0]
                     phase = wave[1]
                     frequency = wave[2]
-                    binParameters.append((amplitude, frequency, phase))
-                    # bin_samples = generate_bin_samples(amplitude, phase, frequency, frame_duration, sampleRate, waves_per_bin)
-                    # segment_start = frame_idx * int(frame_duration * sampleRate)
-                    # segment_end = (frame_idx + 1) * int(frame_duration * sampleRate)
-                    # waveform[segment_start:segment_end] += bin_samples
-            frameSample = generateFrameSamples(binParameters=binParameters)
-            frameSamples.append(frameSample)
-    waveform = combineFrames(frameSamples)
+                    bin_samples = generate_bin_samples(amplitude, phase, frequency, frame_duration, frames_per_sec, waves_per_bin)
+                    segment_start = frame_idx * int(frame_duration * frames_per_sec)
+                    segment_end = (frame_idx + 1) * int(frame_duration * frames_per_sec)
+                    waveform[segment_start:segment_end] += bin_samples
+
+    # Print information about the waveform and chromosome
+    # print(waveform.shape)
+    # print(np.array(enlargedChromosome).shape)
+
     # Write the waveform to a wave file
     write_wave(filename, waveform)
+    # print("Decoding completed!")
+    # print(f"Output Audio Filename: {filename}")
+    # print("The Decoding Execution Time is:", (time.time() - start), "s")
 
-def generateFrameSamples(binParameters):
-    # Generate time values for each part
-    t = np.linspace(0, frame_duration, int(sampleRate * frame_duration), endpoint=False)
-
-    combined_wave = np.sum([A * np.sin(2 * np.pi * f * t + phi) for A, f, phi in binParameters], axis=0)
-
-    combined_wave /= np.max(np.abs(combined_wave))
-
-    return combined_wave
-
-def combineFrames(frameSamples):
-    concatenatedWave = frameSamples[0]
-    for i in range(1, len(frameSamples)):
-        concatenatedWave = np.concatenate((concatenatedWave, frameSamples[i]))
-
-    return concatenatedWave
-
-
-def generate_bin_samples(amplitude, phase, frequency, duration, sampleRate, waves_per_bin):
+def generate_bin_samples(amplitude, phase, frequency, duration, frames_per_sec, waves_per_bin):
     # This line creates a time array t that starts from 0 and goes up to the specified duration.
     # The linspace function is used to evenly divide this time range into a sequence of time points.
     # The endpoint=False argument indicates that the endpoint (the final time point) should not be included in the sequence.
-    t = np.linspace(0, duration, int(duration * sampleRate), endpoint=False)
+    t = np.linspace(0, duration, int(duration * frames_per_sec), endpoint=False)
 
     # Here, the frequency array is created to match the time array t. 
     # The np.full_like function fills an array with the specified frequency value, creating an array of the same shape as t.
@@ -114,8 +99,7 @@ def write_wave(filename, waveform):
         wav_file.setnchannels(1)  # Mono audio
         wav_file.setsampwidth(2)  # 16-bit
         wav_file.setframerate(44100)
-        wav_file.setnframes(len(waveform))
-        wav_file.writeframes((waveform * 32767).astype(np.int16).tobytes())
+        wav_file.writeframes(waveform.tobytes())
 
 # Function to generate a random chromosome based on specified parameters
 def generate_chromosome(Cl=300, Gl=50, A=1.0):
@@ -173,9 +157,6 @@ if __name__ == "__main__":
     
     chromosome = generate_chromosome()
 
-    print(len(chromosome), len(chromosome[0]), len(chromosome[0][0]))
-
     if len(audio_file_name) < 4 or audio_file_name[-4] != ".wav" :
         audio_file_name += ".wav"
     decode(chromosome, audio_file_name)
-

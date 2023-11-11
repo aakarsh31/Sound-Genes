@@ -9,7 +9,7 @@ import time
 
 # normal distribution function
 def g(x, mean, variance):
-    return math.exp(-((x - mean)**2) / (2 * variance))
+    return ((x - mean)**2) / (2 * variance)
 
 # to add weights to the fitness values
 def addWeights(fitnessValues, weights):
@@ -33,7 +33,7 @@ def computeFitnessValues(generation, populationNumber, audioFile="aaramb.wav", r
     audio_features = AudioFeatures(directory = directory, filename = audioFile)
 
     # final data needed for the gaussian function
-    gaussianData = pd.read_csv("gaussianData.csv") 
+    gaussianData = pd.read_csv("updatedGaussianData.csv") 
 
     rasas = ['Karuna', 'Shanta', 'Shringar', 'Veera']
 
@@ -72,16 +72,16 @@ def computeFitnessValues(generation, populationNumber, audioFile="aaramb.wav", r
     for i in range(len(rasas)):
         if rasaNumber == i+1 or rasaNumber==5:
             rasaValues = {}
+            # print(results["featureValues"])
+            index = 1
             for feature, value in results["featureValues"].items():
-                index = int(feature[1])
                 mean = Decimal(gaussianData.iloc[index][f"{rasas[i]} Peak Point"])
                 variance = Decimal(gaussianData.iloc[index]["5*SigmaSq obtained in Col G"])
                 # calling the fitness function
-                fitnessValue = g(value, mean, variance)
-                if fitnessValue != 0:
-                    rasaValues[feature] = -1 * math.log(fitnessValue)
-                else:
-                    rasaValues[feature] = 0.0
+                rasaValues[feature] = g(value, mean, variance)
+
+                # print(feature, rasas[i], mean)
+                index+=1
 
             rasaValues = addWeights(rasaValues, weights)
             fitnessValues[rasas[i]] = rasaValues
@@ -99,12 +99,12 @@ def computeFitnessValues(generation, populationNumber, audioFile="aaramb.wav", r
         os.remove(f'./jAudio/gen{generation}-{populationNumber}FV.xml')
         os.remove(f'./jAudio/gen{generation}-{populationNumber}FK.xml')
 
-        if populationNumber % 25 != 0 or populationNumber != 119:
+        if populationNumber % 25 != 0 and populationNumber != 119:
             os.remove(f'./audio_output/{audioFile}')
-        if populationNumber % 10 != 0 or populationNumber != 119:
             os.remove(output_filename)
             os.remove(output_filename.replace("_10_", '_all_'))
-        # print(f'Files "{file_path}" successfully deleted.')
+
+        # print(f'Files successfully deleted.')
     except OSError as e:
         print(
            f'''
@@ -125,5 +125,7 @@ if __name__ == "__main__":
     audioFile = "aaramb.wav"
     if num_arguments > 1:
         audioFile = sys.argv[1]
+    if audioFile[-4:] != ".wav":
+        audioFile+=".wav"
 
-    results = computeFitnessValues(rasaNumber=1, audioFile=audioFile, generation=0, populationNumber=0)
+    results = computeFitnessValues(rasaNumber=5, audioFile=audioFile, generation=0, populationNumber=0)
